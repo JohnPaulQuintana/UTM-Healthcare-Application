@@ -35,6 +35,12 @@ const store = createStore({
         },
         getTokenName: function(state){
             return state.token.name;
+        },
+        getTokenSpeciality: function(state) {
+            return state.token.speciality;
+        },
+        getTokenId: function(state) {
+            return state.token.id;
         }
     }
 })

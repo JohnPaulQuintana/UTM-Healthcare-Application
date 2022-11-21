@@ -5,7 +5,14 @@
                 <!-- {{ form }} -->
                 <form @submit.prevent="signup">
                     <div class="mb-3">
-                        <h1 class="text-center">Sign up</h1>
+                        <h1 class="text-center">Edit Profile</h1>
+                        <!-- User Here -->
+                        <div class="profile">
+                            <font-awesome-icon icon="fa-solid fa-user" class="icon text-secondary userProfile"/>
+                        </div>
+                       <div class="profileName">
+                            <h3><b>{{ $store.getters.getTokenName }}</b></h3>
+                       </div>
                     </div>
                     <hr/>
                     <div class="mb-3">
@@ -20,27 +27,37 @@
                     </div>
                     <div class="mb-3">
                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Password</label>
+                            <label :for="id" class="form-label text-secondary">Current-Password</label>
                            <div class="mb-content">
                                 <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary" />
-                                <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.password">
+                                <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.current_password">
                            </div>
                        </div>
-                       <p :class="className" v-if="statusCode.password">{{ statusCode.password[0] }}</p>
+                       <p :class="className" v-if="statusCode.current_password">{{ statusCode.current_password[0] }}</p>
                     </div>
-                    <!-- <div class="mb-3">
-                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Confirm-Password</label>
-                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary"/>
-                                <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.password_confirmation">
-                            </div>
-                        </div>
-                        <p :class="className" v-if="statusCode.password">{{ statusCode.password[0] }}</p>
-                    </div> -->
                     <div class="mb-3">
                         <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Name</label>
+                            <label class="form-label text-secondary">New Password</label>
+                            <div class="mb-content">
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary"/>
+                                <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.new_password">
+                            </div>
+                        </div>
+                        <p :class="className" v-if="statusCode.new_password">{{ statusCode.new_password[0] }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-field">
+                            <label class="form-label text-secondary">Confirmed-Password</label>
+                            <div class="mb-content">
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary"/>
+                                <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.password_confirmation">
+                            </div>
+                        </div>
+                        <p :class="className" v-if="statusCode.password_confirmation">{{ statusCode.password_confirmation[0] }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-field">
+                            <label class="form-label text-secondary">Name</label>
                             <div class="mb-content">
                                 <font-awesome-icon icon="fa-solid fa-user" class="icon text-secondary"/>
                                 <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.name">
@@ -48,40 +65,10 @@
                         </div>
                         <p :class="className" v-if="statusCode.name">{{ statusCode.name[0] }}</p>
                     </div>
-                    <div class="mb-3">
-                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Matric</label>
-                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-fingerprint" class="icon text-secondary"/>
-                                <input type="number" name="matric" class="input-text text-secondary" :class="className" :id="id" v-model="form.matric">
-                            </div>
-                        </div>
-                        <p :class="className" v-if="statusCode.matric">{{ statusCode.matric[0] }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Speciality</label>
-                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-list-check" class="icon text-secondary"/>
-                                <input @input="checkInput" type="text" name="speciality" class="input-text text-secondary" :class="className" :id="id" v-model="form.speciality" placeholder="Student | Doctor">
-                            </div>
-                        </div>
-                        <p :class="className" v-if="statusCode.speciality">{{ statusCode.speciality[0] }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">About</label>
-                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-circle-info" class="icon text-secondary"/>
-                                <input type="text" name="About" class="input-text text-secondary" :class="className" :id="id" v-model="form.about">
-                            </div>
-                        </div>
-                        <p :class="className" v-if="statusCode.about">{{ statusCode.about[0] }}</p>
-                    </div>
-                    <div class="text-center"><span>Already a member?</span> <a href="/">Login</a></div><br>
+                    
                     <div class="d-grid gap-2">
-                        <button ref="btnStudent" class="btn btn-primary disabled" type="submit">Student Sign up</button>
-                        <button ref="btnDoctor" class="btn btn-primary disabled" type="submit">Doctor Sign up</button>
+                        <button ref="btnStudent" class="btn btn-primary" type="submit">Edit</button>
+                        <button ref="btnDoctor" class="btn btn-primary" type="submit">Delete</button>
                     </div>
                 </form>
             </div>
@@ -100,57 +87,27 @@ export default {
         const store = useStore()
         let form = reactive({
             email: '',
-            password: '',
+            current_password: '',
+            new_password: '',
+            password_confirmation: '',
             // password_confirmation:'',
             name: '',
-            matric: '',
-            speciality: '',
-            about: ''
+            token: store.getters.getToken
 
         });
-
-        let btnDoctor = ref(null)
-        let btnStudent = ref(null)
-        // check input student /doctor
-        const checkInput = (e) => {
-            console.log(e)
-            // switch (e.target.value) {
-            //     case 'Doctor':
-            //         btnStudent.value.classList.add('disabled')
-            //         btnDoctor.value.classList.remove('disabled')
-            //         break;
-            //     case 'Student':
-            //         btnStudent.value.classList.remove('disabled')
-            //         btnDoctor.value.classList.add('disabled')
-            //         break;
-            //     default:
-            //         btnStudent.value.classList.add('disabled')
-            //         btnDoctor.value.classList.add('disabled')
-            //         break;
-            // }
-
-            // changes
-            if(e.target.value == "Doctor" || e.target.value == "doctor"){
-                btnStudent.value.classList.add('disabled')
-                btnDoctor.value.classList.remove('disabled')
-            }else if(e.target.value == "Student" || e.target.value == "student"){
-                btnStudent.value.classList.remove('disabled')
-                btnDoctor.value.classList.add('disabled')
-            }else{
-                btnStudent.value.classList.remove('disabled')
-                btnDoctor.value.classList.add('disabled')
-            }
-        }
-
-
-
-        // console.log(form.speciality)
-
+        let empty = ref(false)
         let className = ref('');
         let statusCode = ref('')
+         // set header
+         const headers = {
+                'Accept': 'application/vnd.api+json',
+                'Content-Type': 'application/vnd.api+json',
+                'Authorization': 'Bearer ' + store.getters.getToken
+                }
         const signup = async() => {
-            await axios.post('/api/register',form)
+            await axios.post('/api/update/'+store.getters.getTokenId,form, {headers})
             .then((res)=>{
+                console.log(res)
                 console.log(res.data.data.token)
                 console.log(res.data.data.user.name)
                 statusCode.value = ''
@@ -185,9 +142,8 @@ export default {
             signup,
             statusCode,
             className,
-            checkInput,
-            btnDoctor,
-            btnStudent
+            empty
+          
         }
 
         
@@ -265,5 +221,22 @@ export default {
     /* disable button */
     .disabled{
         pointer-events: none;
+    }
+    .profile{
+        font-size: 5em;
+        border: 1px solid rgb(99, 95, 95);
+        width: 100px;
+        margin: auto;
+        text-align: center;
+        border-radius: 50%;
+        /* border: #dd0e29; */
+        /* padding: 5px; */
+    }
+    .profileName{
+        font-size: 2em;
+        width: fit-content;
+        margin: auto;
+        /* border: 1px solid red; */
+        
     }
 </style>

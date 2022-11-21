@@ -31,7 +31,7 @@
                     <div class="mb-3">
                         <p :class="className" v-if="statusCode.message">{{ statusCode.message }}</p>
                     </div>
-                    <div class="text-center"><a href="#">Forgot Password</a></div><br>
+                    <div class="text-center"><a href="/forgot_password">Forgot Password</a></div><br>
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary" type="submit">Login</button>
                         <div class="text-center"><span>New to BetterHealth? </span><a href="/register"> Sign Up</a></div>
@@ -57,6 +57,7 @@ export default {
             password: '',
 
         });
+        let id = ref(null)
         let className = ref('');
         let statusCode = ref('')
         const login = async() => {
@@ -64,7 +65,7 @@ export default {
             const headers = {
                 'Accept': 'application/vnd.api+json',
                 'Content-Type': 'application/vnd.api+json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + store.getters.getToken
                 }
             await axios.post('/api/login',form, {headers})
             .then((res)=>{
@@ -74,19 +75,28 @@ export default {
 
                 let tokenData = {
                     bearerToken : res.data.data.token,
-                    name : res.data.data.user.name
+                    name : res.data.data.user.name,
+                    speciality : res.data.data.user.speciality,
+                    id : res.data.data.user.id,
                 }
 
                 // restoring token in localstorage using vuex
                 store.dispatch('setToken', tokenData)
                 // push login page by name
                 // window.location.reload();
-                router.push({ name: 'User' });
+                // router.push({ name: '' });
+
+                if(tokenData.speciality == 'Doctor'){
+                    router.push({name: "Doctor"});
+                }else{
+                    router.push({name: "Student"});
+                }
+
             })
             //this is a problem after register
             .catch((err)=>{
                 console.log(err.response)
-                console.log(err.response.data.message)
+                // console.log(err.response.data.message)
                 if(err.response.status === 422){
                     console.log('yes')
                     statusCode.value = err.response.data.errors  
@@ -101,6 +111,7 @@ export default {
             login,
             statusCode,
             className,
+            id
         }
 
     },
