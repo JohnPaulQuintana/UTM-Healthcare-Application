@@ -24,9 +24,14 @@ class SchedulesResource extends JsonResource
 
         $date = Carbon::createFromDate($this->day)->format('l jS \of F Y');
         
+        // if($this->user_id === $this->doctor_id ){
+        //     $ratingTotals = $this->ratings->sum();
+        // }
+
         return [
             'id' => (string)$this->id,
             'attributes' => [
+                'doctor_id' => $this->user_id,
                 'starting_time' => $starting_Time,
                 'end_time' => $end_Time,
                 'day' => $date,
@@ -39,6 +44,11 @@ class SchedulesResource extends JsonResource
                 'useremail' => $this->user->email,
                 'userspeciality' => $this->user->speciality
             ],
+            "ratings" => [
+                'id' => $this->id,
+                'rating' => $this->ratings,
+                'feedback' => $this->feedback
+            ]
             
         ];
     }

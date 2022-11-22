@@ -20,7 +20,7 @@
                  <!-- authorized Doctor -->
                 <div class="user" v-else-if="$store.getters.Token != 0 && $store.getters.getTokenSpeciality === 'Doctor' || $store.getters.getTokenSpeciality === 'doctor'">
                     <ul class="navbar-nav me-5 mb-2 mb-lg-0">
-                        <a class="nav-link"><router-link :to="{name: 'Request'}"><span class="text-warning">0</span><font-awesome-icon icon="fa-solid fa-bell" /></router-link></a>
+                        <a class="nav-link"><router-link :to="{name: 'Request'}"><span class="text-warning"></span><font-awesome-icon icon="fa-solid fa-bell" /></router-link></a>
                         <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ $store.getters.getTokenName }}

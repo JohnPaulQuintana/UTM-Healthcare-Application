@@ -47,3 +47,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // schedule
 // Route::get('/sched',[ScheduleController::class, 'index']);
+
+// for debug
+Route::get('/student', [StudentController::class, 'index']);
