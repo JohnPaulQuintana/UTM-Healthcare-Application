@@ -7,6 +7,7 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Http\Resources\SchedulesResource;
 use App\Models\DoctorRating;
+use League\CommonMark\Extension\Attributes\Node\Attributes;
 
 class StudentController extends Controller
 {
@@ -24,21 +25,40 @@ class StudentController extends Controller
         // return SchedulesResource::collection(
         //     Schedule::where('status',  'active')->get()//get all
         // );
-        return SchedulesResource::collection(
-            Schedule::where('status', 'active')
+
+        $doctor = Schedule::where('status','active')->get();
+        // $ratings = DoctorRating::where()->get();
+        // dd($ratings->all());
+        // dd($doctor->starting_time);
+        // $ratings->mapWithKeys(function($item, $key){
+        //     return [$item['doctor_id'] => $item['doctor_id']];
+        // });
+       
+        // dd($doctor[0]);
+        $ratingsCollection = SchedulesResource::collection(
+            Schedule::where('status','active')
             // ->join('doctor_ratings', 'doctor_id', '=', 'schedules.user_id')
             ->join('doctor_ratings', 'doctor_id', '=', 'schedules.user_id')
+            // ->where('doctor_id','schedules.user_id')->sum('ratings')
             // ->where(function($query){
             //     $query->where('doctor_id','=','schedules.user_id')->groupBy('doctor_id')->sum('ratings');
             // })
             ->get()
+        
         );
+
+        return $ratingsCollection;
+
+        // dd($ratingsCollection->duplicates(attributes->doctor_id));
+        // $rating_sum = DoctorRating::where('doc')
+        // dd($ratingsCollection);
+        // return $ratingsCollection;
 
         // return SchedulesResource::collection(
         //     DoctorRating::where('ratings', '!=', 0)
         //         ->join('schedules', 'user_id', '=', 'doctor_ratings.doctor_id')
         //         ->where(function($query){
-        //             $query->where('doctor_id','!=','schedules.user_id')->sum('ratings');
+        //             $query->where('doctor_id','=','schedules.user_id')->sum('ratings');
         //         })
         //         ->get()
         // );

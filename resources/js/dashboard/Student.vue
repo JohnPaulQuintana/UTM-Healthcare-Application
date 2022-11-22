@@ -1,33 +1,44 @@
 <template>
     <!-- schedule -->
     <!-- <h1 class="text">dwada</h1> -->
+    {{ docRatings }}
     <div class="container">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
         <div class="row">
           <h1>Available Doctors</h1>
-            <div id="myid" :data-id="schedule.relationships.id" @click="clickEvents(schedule.relationships.id)" class="col-sm-6 mb-4" v-for="(schedule,index) in schedules" :key="index">
-              
+            <div id="myid" :data-id="schedule.doctor_id" @click="clickEvents(schedule.doctor_id)" class="col-sm-6 mb-4" v-for="(schedule,index) in docRatings" :key="index">
+              <!-- {{ schedule }} -->
               <div class="card" >
-                <div class="card-body p-2">
+                <div class="card-body p-1">
                   <div class="doctor-content">
                             <div class="col-sm-3 h-25 user-profile p-2">
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-6x"/>
                             </div>
                             <div class="col-sm-5 p-2 h-25">
+                              <p>{{ Math.round(schedule.rating / schedule.count)}}</p>
                               <div class="star-widget">
-                               
-                                <input type="radio" name="rate" id="rate-5" checked="checked">
-                                <label for="rate-5"><font-awesome-icon icon="fa-solid fa-star" /></label>
-                                <input type="radio" name="rate" id="rate-4" :checked="val">
+                                <ul>
+                                  <li v-for="(schedule,index) in starDisplay" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1">
+                                      <label :for="'rate-'+index"><font-awesome-icon icon="fa-solid fa-star" /></label>
+                                  </li>
+                                </ul>
+                                <!-- <input type="radio" name="rate" id="rate-5"> -->
+                                <!-- <label :for="index"><font-awesome-icon icon="fa-solid fa-star" v-for="(schedule,index) in starDisplay" :key="index" /></label> -->
+                                <!-- <input type="radio" name="rate" id="rate-4">
                                 <label for="rate-4"><font-awesome-icon icon="fa-solid fa-star" /></label>
-                                <input type="radio" name="rate" id="rate-3" :checked="val">
+                                <input type="radio" name="rate" id="rate-3">
                                 <label for="rate-3"><font-awesome-icon icon="fa-solid fa-star" /></label>
-                                <input type="radio" name="rate" id="rate-2" :checked="val">
+                                <input type="radio" name="rate" id="rate-2">
                                 <label for="rate-2"><font-awesome-icon icon="fa-solid fa-star" /></label>
-                                <input type="radio" name="rate" id="rate-1" :checked="val">
-                                <label for="rate-1"><font-awesome-icon icon="fa-solid fa-star" /></label>
+                                <input type="radio" name="rate" id="rate-1">
+                                <label for="rate-1"><font-awesome-icon icon="fa-solid fa-star" /></label> -->
+                               
                               </div>
-                              <p class="card-text"><span>{{ schedule.relationships.userspeciality }}</span> : {{ schedule.relationships.username }}</p>
+                              <label>{{ schedule.count }} Ratings</label>
+                              <p class="card-text"><span>{{ schedule.userspeciality }}</span> {{ schedule.username }}</p>
                               <p class="card-text">{{ 'Surgeon' }}</p>
                             </div>  
                         </div>
@@ -49,9 +60,10 @@
     // import { useRouter } from 'vue-router'
     import {useStore} from 'vuex'
     import {useRouter, useRoute} from 'vue-router'
+// import { count } from 'console'
 // import { match } from 'assert'
     // import {ref, onMounted} from 'vue'
-    // import $ from 'jquery'
+    import $ from 'jquery'
   export default{
     setup(){},
   // load the schedule using option api
@@ -59,7 +71,7 @@
       return {
           schedules: [],
           docRatings: [],
-          docId: [],
+          starDisplay: [],
           val : '',
           sum : 0,
           ratings : {
@@ -81,7 +93,7 @@
     mounted(){
         // this.loadTask();
         this.loadSchedule()
-        this.getRatings()
+        // this.getRatings()
      },
      methods: {
       async loadSchedule(){
@@ -96,6 +108,29 @@
             .then((res)=>{
               console.log(res)
               this.schedules = res.data.data
+              this.starDisplay = res.data.data
+              // console.log(this.schedules)
+
+              // try to count ratings
+              var ret = {}
+              
+              for (let i in this.schedules) {
+                let key = this.schedules[i].attributes.doctor_id
+               
+                ret[key] = {
+                  doctor_id: key,
+                  count: ret[key] && ret[key].count ? ret[key].count + 1 : 1,
+                  rating : ret[key] && ret[key].rating ? ret[key].rating += this.schedules[i].ratings.rating : this.schedules[i].ratings.rating,
+                  speciality : this.schedules[i].relationships.userspeciality,
+                  username : this.schedules[i].relationships.username
+                }
+              }
+              console.log(Object.values(ret))
+              this.docRatings = Object.values(ret)
+              // this.starDisplay = Object.values(star)
+              // append
+
+              // $('.star-widget').append( "<p>Test</p>")
             })
 
             .catch((err)=>{
@@ -111,7 +146,7 @@
         console.log('click : '+id)
         if(id){
           // uncomment this after you slove the ratings problem
-          this.$router.push('/profile_info/'+id) 
+          // this.$router.push('/profile_info/'+id) 
         }
       },
        async getRatings(){
@@ -218,10 +253,15 @@
   /* width: 20em; */
   z-index: 1;
 }
-.doctor-content, .time{
+.doctor-content, .time, ul{
     display: flex;
     align-items: center;
     justify-content: center;
+    list-style-type: none;
+}
+ul{
+  margin: 0;
+  padding: 0;
 }
 .col-sm-5{
     /* border: 1px solid red; */
@@ -244,11 +284,13 @@ p{
   transition: all 0.2s ease;
   /* float: right; */
 }
-input:not(:checked) ~ label:hover,
+/* input:not(:checked) ~ label:hover,
 input:not(:checked) ~ label:hover ~ label{
   color: #fd4;
-}
+} */
 
+
+/* this is the problem  */
 input:checked ~ label{
   color: #fd4;
 }

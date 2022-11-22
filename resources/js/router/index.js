@@ -144,7 +144,7 @@ const router = createRouter({
 // redirect user
 router.beforeEach((to, from)=>{
     // auththentication is true and localStorage is not set
-    if(to.meta.requiresAuth && store.getters.getToken == 0 && store.getters.getToken == undefined){
+    if(to.meta.requiresAuth && store.getters.getToken == 0 || store.getters.getToken == undefined){
         console.log(store.getters.getToken)
         return { name : 'Login' }    
          
@@ -162,6 +162,8 @@ router.beforeEach((to, from)=>{
         } 
        
     }
+
+    
 
     // if(to.meta.requiresAuth && store.getters.getTokenSpeciality != 0 && store.getters.getTokenSpeciality == "Doctor"){
     //     console.log('doctor')
