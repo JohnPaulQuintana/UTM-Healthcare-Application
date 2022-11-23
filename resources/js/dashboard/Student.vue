@@ -1,7 +1,7 @@
 <template>
     <!-- schedule -->
     <!-- <h1 class="text">dwada</h1> -->
-    {{ docRatings }}
+    <!-- {{ docRatings }} -->
     <div class="container">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
         <div class="row">
@@ -17,12 +17,59 @@
                             <div class="col-sm-5 p-2 h-25">
                               <p>{{ Math.round(schedule.rating / schedule.count)}}</p>
                               <div class="star-widget">
-                                <ul>
-                                  <li v-for="(schedule,index) in starDisplay" :key="index">
+                                <ul v-if="Math.round(schedule.rating / schedule.count) == 5">
+                                  <li v-for="(schedules,index) in ratings" :key="index">
                                     <!-- i need to find a solution for this -->
                                     <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
-                                      <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1">
-                                      <label :for="'rate-'+index"><font-awesome-icon icon="fa-solid fa-star" /></label>
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 5" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                  </li>
+                                </ul>
+                                <ul v-else-if="Math.round(schedule.rating / schedule.count) == 4">
+                                  <li v-for="(schedules,index) in ratings" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- {{ index[5] }} -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 4" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                  </li>
+                                  
+                                </ul>
+                                <ul v-else-if="Math.round(schedule.rating / schedule.count) == 3">
+                                  <li v-for="(schedules,index) in ratings" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 3" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                  </li>
+                                </ul>
+                                <ul v-else-if="Math.round(schedule.rating / schedule.count) == 2">
+                                  <li v-for="(schedules,index) in ratings" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 2" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                  </li>
+                                </ul>
+                                <ul v-else-if="Math.round(schedule.rating / schedule.count) == 1">
+                                  <li v-for="(schedules,index) in ratings" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 1" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                  </li>
+                                </ul>
+                                <ul v-else>
+                                  <li v-for="(schedules,index) in ratings" :key="index">
+                                    <!-- i need to find a solution for this -->
+                                    <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
+                                      <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
+                                      <label v-if="parseInt(index[5]) <= 1" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
                                   </li>
                                 </ul>
                                 <!-- <input type="radio" name="rate" id="rate-5"> -->
@@ -75,11 +122,11 @@
           val : '',
           sum : 0,
           ratings : {
-              'rate-5' : 5,
-              'rate-4' : 4,
-              'rate-3' : 3,
-              'rate-2' : 2,
               'rate-1' : 1,
+              'rate-2' : 2,
+              'rate-3' : 3,
+              'rate-4' : 4,
+              'rate-5' : 5,
           },
           startTotal : 5,
           starPercentage: null,          
@@ -113,10 +160,9 @@
 
               // try to count ratings
               var ret = {}
-              
+              var print_star = {}
               for (let i in this.schedules) {
                 let key = this.schedules[i].attributes.doctor_id
-               
                 ret[key] = {
                   doctor_id: key,
                   count: ret[key] && ret[key].count ? ret[key].count + 1 : 1,
@@ -127,6 +173,15 @@
               }
               console.log(Object.values(ret))
               this.docRatings = Object.values(ret)
+
+              for(let x in this.ratings){
+                let star = this.ratings[x];
+                print_star[star] = {
+                  star : star,
+                  ratings : this.docRatings
+                }
+              }              
+              console.log(Object.values(print_star))
               // this.starDisplay = Object.values(star)
               // append
 
@@ -146,7 +201,7 @@
         console.log('click : '+id)
         if(id){
           // uncomment this after you slove the ratings problem
-          // this.$router.push('/profile_info/'+id) 
+          this.$router.push('/profile_info/'+id) 
         }
       },
        async getRatings(){
@@ -272,9 +327,9 @@ p{
 }
 
 /* star */
-.star-widget input{
+/* .star-widget input{
   display: none;
-}
+} */
 
 .star-widget label{
   font-size: 25px;
@@ -291,7 +346,7 @@ input:not(:checked) ~ label:hover ~ label{
 
 
 /* this is the problem  */
-input:checked ~ label{
+label.check{
   color: #fd4;
 }
 </style>
