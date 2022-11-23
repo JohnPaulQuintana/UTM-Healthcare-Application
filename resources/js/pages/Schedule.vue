@@ -5,6 +5,7 @@
                 <!-- {{ form }} -->
                 <form @submit.prevent="schedule">
                     <div class="mb-3">
+                        <!-- {{  this.$route.params.id }} -->
                         <h1 class="text-center">Availability</h1>
                     </div>
                     <hr/>
@@ -52,11 +53,12 @@
     // import Datepicker from 'vue3-datepicker'
     // import { stat } from 'fs';
     import { reactive, ref } from 'vue'
-    import { useRouter } from 'vue-router'
+    import { useRouter, useRoute } from 'vue-router'
     import {useStore} from 'vuex'
     export default{
         setup(){
             const router = useRouter()
+            const route = useRoute()
             const store = useStore()
             let className = ref('');
             let statusCode = ref('')
@@ -66,6 +68,7 @@
                 status: 'active',
                 // password_confirmation:'',
                 day: '',
+                // doctor_id : route.params.id
             });
              // set header
             const headers = {

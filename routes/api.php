@@ -8,6 +8,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\BookSchedulesController;
 use App\Http\Controllers\DoctorRatingController;
+use App\Models\Schedule;
+
 // use App\Models\DoctorRating;
 
 /*
@@ -49,4 +51,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 // Route::get('/sched',[ScheduleController::class, 'index']);
 
 // for debug
-Route::get('/student', [StudentController::class, 'index']);
+// Route::get('/student', [StudentController::class, 'index']);
+// Route::post('/sched/{id}', [ScheduleController::class, 'store']);
+// Route::resource('/sched', ScheduleController::class);

@@ -15,7 +15,7 @@
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-6x"/>
                             </div>
                             <div class="col-sm-5 p-2 h-25">
-                              <p>{{ Math.round(schedule.rating / schedule.count)}}</p>
+                              <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
                               <div class="star-widget">
                                 <ul v-if="Math.round(schedule.rating / schedule.count) == 5">
                                   <li v-for="(schedules,index) in ratings" :key="index">
@@ -68,8 +68,8 @@
                                     <!-- i need to find a solution for this -->
                                     <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
                                       <!-- <input type="radio" name="rate" :id="'rate-'+index" checked v-if="index == 1"> -->
-                                      <label v-if="parseInt(index[5]) <= 1" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
-                                      <label v-else :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
+                                      <!-- <label  class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label> -->
+                                      <label  :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>
                                   </li>
                                 </ul>
                                 <!-- <input type="radio" name="rate" id="rate-5"> -->
@@ -84,7 +84,7 @@
                                 <label for="rate-1"><font-awesome-icon icon="fa-solid fa-star" /></label> -->
                                
                               </div>
-                              <label>{{ schedule.count }} Ratings</label>
+                              <label v-if="schedule.rating != 0">{{ schedule.count }} Ratings</label>
                               <p class="card-text"><span>{{ schedule.userspeciality }}</span> {{ schedule.username }}</p>
                               <p class="card-text">{{ 'Surgeon' }}</p>
                             </div>  
@@ -119,8 +119,6 @@
           schedules: [],
           docRatings: [],
           starDisplay: [],
-          val : '',
-          sum : 0,
           ratings : {
               'rate-1' : 1,
               'rate-2' : 2,
@@ -128,10 +126,7 @@
               'rate-4' : 4,
               'rate-5' : 5,
           },
-          startTotal : 5,
-          starPercentage: null,          
-          starPercentageRounded: null ,
-          elements : []         
+          
         }    
     },
     computed(){
@@ -153,12 +148,11 @@
             }
             await axios.get('/api/student',{headers})
             .then((res)=>{
-              console.log(res)
+              // console.log(res)
               this.schedules = res.data.data
               this.starDisplay = res.data.data
-              // console.log(this.schedules)
-
-              // try to count ratings
+              
+              // algorithm for creating ratings key
               var ret = {}
               var print_star = {}
               for (let i in this.schedules) {
@@ -171,7 +165,7 @@
                   username : this.schedules[i].relationships.username
                 }
               }
-              console.log(Object.values(ret))
+              // console.log(Object.values(ret))
               this.docRatings = Object.values(ret)
 
               for(let x in this.ratings){
@@ -181,117 +175,25 @@
                   ratings : this.docRatings
                 }
               }              
-              console.log(Object.values(print_star))
-              // this.starDisplay = Object.values(star)
-              // append
-
-              // $('.star-widget').append( "<p>Test</p>")
+              // console.log(Object.values(print_star))
+      
             })
 
             .catch((err)=>{
               console.log(err.response.status )
               if(err.response.status == 401 ){
                    router.push({ name: "Login"  });
-                   console.log('dwahdjawd');  
+                  //  console.log('dwahdjawd');  
               }
               
             })
       },
       clickEvents(id) {
-        console.log('click : '+id)
         if(id){
           // uncomment this after you slove the ratings problem
           this.$router.push('/profile_info/'+id) 
         }
-      },
-       async getRatings(){
-        // for (let rating in this.ratings) {
-        //   console.log(rating)
-        //   console.log(this.ratings[rating])
-        //   // get percentage
-        //   this.starPercentage = (this.ratings[rating] / this.startTotal) * 100;
-        //   console.log(this.starPercentage)
-
-        //   // rounded to nearest 10
-        //   this.starPercentageRounded = `${Math.round(this.starPercentage / 10) * 10}%`;
-        //   console.log(this.starPercentageRounded)
-        //    // set width of star-iiner to percentage
-        //   // this.elements = document.querySelectorAll(`#${rating} font-awesome-icon`)
-        //   // console.log(this.elements)
-        // }
-       
-          const router = useRouter()
-          const route = useRouter()
-          const store = useStore()
-          const headers = {
-              'Accept': 'application/vnd.api+json',
-              'Content-Type': 'application/vnd.api+json',
-              'Authorization': 'Bearer ' + store.getters.getToken
-            }
-            await axios.get('/api/ratings',{headers})
-            .then((res)=>{
-              console.log(res)
-              this.docRatings = res.data.data
-              let x = 0;
-              // console.log(this.$refs['myid'])
-              let id = document.querySelectorAll('#myid');
-              for(let rate in this.docRatings){
-                console.log('doctor : '+this.docRatings[rate].relationship.id)
-                  id.forEach(function(e){
-                      // console.log(typeof(this.docRatings[rate].relationship.id))
-                      let parseId = parseInt(e.dataset.id);
-                      
-                      console.log("id : "+parseId)
-                      // ERROR DOCRATING IS UNDEFINED
-                      // if(parseId == this.docRatings[rate].relationship.id){
-                      //   console.log('dwawad')
-                      // }
-                      // check whos doctor own this
-                      // if(this.docRatings[rate].relationship.id == parseId){
-                      //   // x += parseInt(this.docRatings[rate].attributes.ratings)
-                      //   console.log(x)
-                      // }else{
-                      //   console.log('not found')
-                      //   console.log(typeof(this.docRatings[rate].relationship.id) + typeof(this.$refs[rate]))
-
-                      // }
-                  })
-                  // x += parseInt(this.docRatings[rate].attributes.ratings)
-                  // console.log(this.$refs['myid'])
-
-                  
-                  // // console.log(this.docRatings[rate].attributes.ratings)
-                  // console.log("Rate : "+rate + ' Refs : ' +this.$refs[rate])//check if div is matched base on id
-                  
-                  //   if(this.docRatings[rate].relationship.id){
-                  //     console.log('is belongs to doctor_id : '+ this.docRatings[rate].relationship.id);
-                  //     //  this.val = 'checked'
-                  //   }else{
-                  //     console.log('is belongs to doctor_id : '+ this.docRatings[rate].relationship.id);
-                  //     // this.val = 'checked'
-                  //   }
-                 
-                  // console.log(rate[x++].attributes.ratings)
-              }
-            })
-
-            .catch((err)=>{
-              console.log(err)
-              // if(err.response.status == 401 ){
-              //      router.push({ name: "Login"  });
-              //      console.log('dwahdjawd');  
-              // }
-              
-            })
-
-      }
-        
-        // setInterval(()=>{
-        //   this.loadSchedule
-        // },3000)
-
-      
-              
+      },             
      },
   }
 </script>
@@ -303,9 +205,6 @@
 }
 .card:hover{
   background-color: aliceblue;
-  /* overflow: scroll; */
-  /* height: 25em; */
-  /* width: 20em; */
   z-index: 1;
 }
 .doctor-content, .time, ul{
@@ -326,24 +225,12 @@ p{
     margin-bottom: 0%;
 }
 
-/* star */
-/* .star-widget input{
-  display: none;
-} */
-
 .star-widget label{
   font-size: 25px;
   color: #444;
   padding: 3px;
-  /* float: right; */
   transition: all 0.2s ease;
-  /* float: right; */
 }
-/* input:not(:checked) ~ label:hover,
-input:not(:checked) ~ label:hover ~ label{
-  color: #fd4;
-} */
-
 
 /* this is the problem  */
 label.check{

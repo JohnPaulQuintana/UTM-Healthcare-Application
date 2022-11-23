@@ -45,23 +45,9 @@
 <script>
     import { useRouter, useRoute } from 'vue-router'
     import { useStore } from 'vuex';
-    import { computed } from 'vue';
+    // import { computed } from 'vue';
    export default{
-        setup(){
-        //    const route = useRoute();
-
-        //     console.log(route.params.id);
-        //     computed(()=>{
-        //         async () =>{
-        //             await axios.get('/api/student')
-        //             .then((res)=>{
-        //                 console.log(res)
-        //             })
-        //         }
-        //     })
-
-           
-        },
+        setup(){},
 
         // option api
         data: function(){

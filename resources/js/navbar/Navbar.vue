@@ -1,4 +1,5 @@
 <template>
+    <!-- {{ token_id }} -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Navbar</a>
@@ -31,6 +32,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <button type="submit" class="dropdown-item" >Logout</button>
                                 <button class="dropdown-item">
+                                    <!-- params: { id : token_id } -->
                                     <router-link :to="{name : 'Schedule'}" class="nav-link me-4"><span>Schedule</span></router-link>
                                 </button>
                                 <button class="dropdown-item">
@@ -90,12 +92,19 @@
 </template>
 <script>
     import getLogout from "../composables/getLogout.js";
+    import store from "../store/index.js";
     export default {
         setup () {
             // to access function composable
           const {logout} = getLogout()  
         return {logout}
         },
+
+        data: function(){
+           return {
+                token_id : store.getters.getTokenId
+           }
+        }
     }
 </script>
 

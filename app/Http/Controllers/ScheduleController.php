@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ScheduleRequest;
 use App\Models\Schedule;
+use App\Models\DoctorRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ScheduleRequest;
 use App\Http\Resources\SchedulesResource;
 
 class ScheduleController extends Controller
@@ -41,6 +42,8 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleRequest $request)
     {
+     
+        // dd($id);
         $request->validated($request->all());
         $sched = Schedule::create([
             'user_id' => Auth::user()->id,
@@ -49,6 +52,15 @@ class ScheduleController extends Controller
             'day' => $request->day,
             'status' => 'active',
         ]);
+
+        // store default ratings
+        DoctorRating::create([
+            'student_id' => Auth::user()->id,
+            'doctor_id' => Auth::user()->id,//later add id
+            'feedback' => 'There is no ratings available' ,
+            'ratings' => 0
+        ]);
+
         return new SchedulesResource($sched);
     }
 
