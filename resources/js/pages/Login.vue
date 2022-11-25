@@ -13,7 +13,7 @@
                             <label :for="id" class="form-label text-secondary">Email ID</label>
                             <div class="mb-content">
                                 <font-awesome-icon icon="fa-solid fa-at" class="icon text-secondary"/>
-                                <input type="email" name="email" class="input-text text-secondary" :class="className" :id="id" v-model="form.email">
+                                <input type="email" class="input-text text-secondary" :class="className" :id="id" v-model="form.email">
                             </div>
                         </div>
                         <p :class="className" v-if="statusCode.email">{{ statusCode.email[0] }}</p>
@@ -65,7 +65,7 @@ export default {
             const headers = {
                 'Accept': 'application/vnd.api+json',
                 'Content-Type': 'application/vnd.api+json',
-                'Authorization': 'Bearer ' + store.getters.getToken
+                'Authorization': 'Bearer ' + store.getters.getToken 
                 }
             await axios.post('/api/login',form, {headers})
             .then((res)=>{
