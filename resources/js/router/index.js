@@ -14,6 +14,7 @@ import Book from '../pages/Book.vue'
 import Profile from '../pages/Profile.vue'
 import ProfileInfo from '../pages/ProfileInfo.vue'
 import Rating from '../pages/Rating.vue'
+import NotAuthorized from '../pages/NotAuthorized.vue'
 const routes = [
     {
         path: '/',
@@ -131,6 +132,14 @@ const routes = [
         meta:{
             requiresAuth:true
         },
+    },
+    {
+        path: '/not-authorized-access',
+        name: 'Access-denied',
+        component: NotAuthorized,
+        meta:{
+            requiresAuth:false
+        },
     }
 
 ];
@@ -140,29 +149,48 @@ const router = createRouter({
     routes
 });
 
+// token
+let defaultToken = {
+    bearerToken : 0,
+    name : 0,
+    speciality : 0,
+}
 
 // redirect user
-router.beforeEach((to, from)=>{
+router.beforeEach(async(to, from,next)=>{
     // auththentication is true and localStorage is not set
-    if(to.meta.requiresAuth && store.getters.getToken == 0 || store.getters.getToken == undefined){
+    if(to.meta.requiresAuth && store.getters.getToken == 0 || store.getters.getToken == 'undefined'){
         console.log(store.getters.getToken)
-        return { name : 'Login' }    
+        // return { name : 'Login' } 
+        next({name : "Login"})   
          
+    }else{
+        // next()
+        console.log('resgister')
+        next()
+        // next()
     }
-   
-     
-    // problem is doctor redirected to a student pages
-
+    // // problem is doctor redirected to a student pages
     if(to.meta.requiresAuth == false && store.getters.getToken != 0){
         if(store.getters.getTokenSpeciality == 'Doctor' || store.getters.getTokenSpeciality == 'doctor'){
-            return { name : 'Doctor' }
-        }else if (store.getters.getTokenSpeciality == 'Student' || store.getters.getTokenSpeciality == 'student') {
+            // return { name : 'Doctor' }
+            console.log('Doctor')
+            next({name : "Doctor"})
+        }else{
+            next()
+        }
+        if (store.getters.getTokenSpeciality == 'Student' || store.getters.getTokenSpeciality == 'student') {
             console.log('student')
-            return { name : 'Student' }
-        } 
-       
+            next({name : "Student"})
+            // return { name : 'Student' }
+        }else{
+            next()
+        }
+        
+    
     }
-
+     
+    // retunf false after the login attemp
     
 
     // if(to.meta.requiresAuth && store.getters.getTokenSpeciality != 0 && store.getters.getTokenSpeciality == "Doctor"){

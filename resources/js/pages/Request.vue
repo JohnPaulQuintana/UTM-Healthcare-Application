@@ -30,7 +30,7 @@
 </div>
 </template>
 <script>
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import $ from 'jquery'
 // import router from '../router';
 import { useStore } from 'vuex'
@@ -49,10 +49,30 @@ import { useStore } from 'vuex'
     mounted(){
         // this.loadTask();
         this.loadBookSchedule()
+        this.checkIfAuthorized()
      },
      methods: {
+        checkIfAuthorized(){
+                console.log('dwadaw ito po')
+                const store = useStore()
+                const router = useRouter()
+                if(store.getters.getToken == 0 || store.getters.getToken == undefined){
+                    console.log("not authorized")
+                    router.push({name: "Login"})
+                }else{
+                  console.log(store.getters.getToken)
+                    if(store.getters.getTokenSpeciality == "Student" || store.getters.getTokenSpeciality == "student"){
+                        console.log(store.getters.getTokenSpeciality)
+                        router.push({name: "Student"})
+                    }else{
+                        console.log('ito ginwa')
+                        router.push({name: "Doctor"})
+                    }
+                }   
+      },
         loadBookSchedule(){
                 const store = useStore()
+                const router = useRouter()
                 const headers = {
                     'Accept': 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
@@ -66,6 +86,10 @@ import { useStore } from 'vuex'
 
                     .catch((err)=>{
                     console.log(err)
+                    if(err.response.status == 401 ){
+                        router.push({ name: "Login"  });
+                  //  console.log('dwahdjawd');  
+                    }
                 })
                 // setInterval(this.loadBookSchedule, 3000)
         },

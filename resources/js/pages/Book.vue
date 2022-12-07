@@ -32,6 +32,8 @@
 
 <script>
     import postBookSchedule from '../composables/postBookSchedule.js'
+    import { useRouter } from 'vue-router'
+    import {useStore} from 'vuex'
 export default {
     setup(){
        
@@ -45,9 +47,35 @@ export default {
     },
     mounted () {
         this.id = this._uid
+        this.checkIfAuthorized
     },
-    method: {
-        
+    created(){
+            // console.log('dwadaw')
+    },
+    mounted () {
+        this.checkIfAuthorized()
+    },
+    methods: {
+            checkIfAuthorized(){
+                console.log('dwadaw')
+                const store = useStore()
+                const router = useRouter()
+                if(store.getters.getToken == 0 || store.getters.getToken == undefined){
+                    console.log("not authorized")
+                    router.push({name: "Login"})
+                }else{
+                    console.log(store.getters.getToken)
+                    // if(store.getters.getTokenSpeciality == "Student" || store.getters.getTokenSpeciality == "student"){
+                    //     router.push({name: "Student"})
+                    // }else{
+                    //     router.push({name: "Doctor"})
+                    // }
+                    if(store.getters.getTokenSpeciality == 'Doctor' || store.getters.getTokenSpeciality == 'doctor'){
+                        console.log('Your A doctor')
+                        router.push({name : "Doctor"})
+                    }
+                }   
+            }
     } 
 }
 </script>

@@ -56,9 +56,13 @@ class DoctorRatingController extends Controller
      * @param  \App\Models\DoctorRating  $doctorRating
      * @return \Illuminate\Http\Response
      */
-    public function show(DoctorRating $doctorRating)
+    public function show($id)
     {
-        //
+        $doctorRate = DoctorRatingResource::collection(
+            DoctorRating::where('doctor_id',$id)->get()
+        );
+        // $doctorRate = DoctorRating::where('doctor_id',$id)->get();
+        return $doctorRate;
     }
 
     /**

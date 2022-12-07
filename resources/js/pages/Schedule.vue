@@ -94,7 +94,28 @@
             return {
                 schedule,form,className,statusCode
             }
-        }
+        },
+        created(){
+            // console.log('dwadaw')
+        },
+        mounted () {
+            this.checkIfAuthorized()
+        },
+        methods: {
+            checkIfAuthorized(){
+                console.log('dwadaw')
+                const store = useStore()
+                const router = useRouter()
+                if(store.getters.getToken == 0 || store.getters.getToken == undefined){
+                    console.log("not authorized")
+                    router.push({name: "Login"})
+                }else{
+                    console.log(store.getters.getToken)
+                }   
+            }
+        } 
+
+
     }
 </script>
 

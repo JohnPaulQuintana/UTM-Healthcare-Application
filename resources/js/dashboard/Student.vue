@@ -135,9 +135,28 @@
     mounted(){
         // this.loadTask();
         this.loadSchedule()
+        this.checkIfAuthorized()
         // this.getRatings()
      },
      methods: {
+      checkIfAuthorized(){
+                console.log('dwadaw')
+                const store = useStore()
+                const router = useRouter()
+                if(store.getters.getToken == 0 || store.getters.getToken == undefined){
+                    console.log("not authorized")
+                    router.push({name: "Login"})
+                }else{
+                  console.log(store.getters.getToken)
+                    if(store.getters.getTokenSpeciality == "Student" || store.getters.getTokenSpeciality == "student"){
+                      console.log('student')  
+                      router.push({name: "Student"})
+                    }else{
+                      console.log('doctor')
+                      router.push({name: "Doctor"})
+                    }
+                }   
+      },
       async loadSchedule(){
          const router = useRouter()
           const store = useStore()

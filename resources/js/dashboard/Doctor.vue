@@ -31,6 +31,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
+import {useRouter, useRoute} from 'vue-router'
     export default {
         setup (){
             
@@ -44,16 +45,17 @@ import { useStore } from 'vuex'
         }    
     },
     computed(){
-        this.loadBookSchedule()
+        // this.loadBookSchedule()
     },
     mounted(){
         // this.loadTask();
-        // this.loadBookSchedule()
+        this.loadBookSchedule()
         // this.refreshStatus()
      },
      methods: {
         loadBookSchedule(){
                 const store = useStore()
+                const router = useRouter()
                 const headers = {
                     'Accept': 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
@@ -68,6 +70,7 @@ import { useStore } from 'vuex'
 
                     .catch((err)=>{
                     console.log(err)
+                    router.push({ name: "Login"  });
                 })
 
                 // setInterval(this.loadBookSchedule, 3000)
