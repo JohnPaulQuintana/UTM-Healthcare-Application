@@ -10,6 +10,8 @@ const postBookSchedule = () => {
         details: '',
         status: 'pending',
         schedule_id: parseInt(route.params.id),
+        time: route.params.time,
+        date: route.params.date
     });
     // set header
     const headers = {
@@ -18,17 +20,26 @@ const postBookSchedule = () => {
             'Authorization': 'Bearer ' + store.getters.getToken
             }
     const consult = async() => {
-        await axios.post('/api/bookschedule',form,{headers})
-        .then((res)=>{
-            console.log(res)
-            // push login page by name
-            router.push({name: "Student"})
-        })
-        //this is a problem after register
-        .catch((err)=>{
-            // router.push({name: "Student"})
-            console.log(err)
-        })
+        // get time and date 
+        if(route.params.time == 'null' || route.params.date == 'null'){
+            // let id = route.params.id
+            router.push({name : 'Popup'})
+            // router.back()
+        }else{
+            alert('dwada')
+        
+            await axios.post('/api/bookschedule',form,{headers})
+            .then((res)=>{
+                console.log(res)
+                // push login page by name
+                router.push({name: "Student"})
+            })
+            //this is a problem after register
+            .catch((err)=>{
+                // router.push({name: "Student"})
+                console.log(err)
+            })
+        }
     }
     return { form, consult, route}
 }

@@ -22,6 +22,8 @@ class BookScheduleResources extends JsonResource
                 'student_name' => $this->name,
                 'student_email' => $this->email,
                 'details' => $this->details,
+                'date' => $this->date,
+                'time' => $this->time
                 
             ],
             'relationships' => [

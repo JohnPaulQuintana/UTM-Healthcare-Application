@@ -84,7 +84,7 @@
                                 <label for="rate-1"><font-awesome-icon icon="fa-solid fa-star" /></label> -->
                                
                               </div>
-                              <label v-if="schedule.rating != 0">{{ schedule.count }} Ratings</label>
+                              <!-- <label v-if="schedule.rating != 0">{{ schedule.count }} Ratings</label> -->
                               <p class="card-text"><span>{{ schedule.userspeciality }}</span> {{ schedule.username }}</p>
                               <p class="card-text">{{ 'Surgeon' }}</p>
                             </div>  
@@ -167,7 +167,7 @@
             }
             await axios.get('/api/student',{headers})
             .then((res)=>{
-              // console.log(res)
+              console.log(res)
               this.schedules = res.data.data
               this.starDisplay = res.data.data
               
@@ -184,7 +184,7 @@
                   username : this.schedules[i].relationships.username
                 }
               }
-              // console.log(Object.values(ret))
+              console.log(Object.values(ret))
               this.docRatings = Object.values(ret)
 
               for(let x in this.ratings){

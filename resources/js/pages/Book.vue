@@ -6,6 +6,7 @@
             <form @submit.prevent="consult">
                 <div class="mb-3">
                     <h1 class="text-center">Consultation Form</h1>
+                   
                 </div>
                 <hr/>
                 <div class="mb-3">
@@ -32,7 +33,7 @@
 
 <script>
     import postBookSchedule from '../composables/postBookSchedule.js'
-    import { useRouter } from 'vue-router'
+    import { useRouter, useRoute } from 'vue-router'
     import {useStore} from 'vuex'
 export default {
     setup(){
@@ -46,6 +47,7 @@ export default {
         }
     },
     mounted () {
+       
         this.id = this._uid
         this.checkIfAuthorized
     },
@@ -58,8 +60,18 @@ export default {
     methods: {
             checkIfAuthorized(){
                 console.log('dwadaw')
+            
                 const store = useStore()
+                const route = useRoute()
                 const router = useRouter()
+
+                console.log(route.params)
+                // get time and date 
+                if(route.params.time == 'null' || route.params.date == 'null'){
+                    // let id = route.params.id
+                    router.push({name:'Popup'})
+                    // router.back()
+                }
                 if(store.getters.getToken == 0 || store.getters.getToken == undefined){
                     console.log("not authorized")
                     router.push({name: "Login"})

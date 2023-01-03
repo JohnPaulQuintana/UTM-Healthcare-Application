@@ -19,7 +19,7 @@
                         </div>
                         <!-- <p :class="className" v-if="statusCode.email">{{ statusCode.email[0] }}</p> -->
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                        <div class="form-field">
                             <label class="form-label text-secondary">End Time</label>
                            <div class="mb-content">
@@ -27,8 +27,8 @@
                                 <input type="time" class="input-text text-secondary" :class="className" v-model="form.end_time">
                            </div>
                        </div>
-                       <!-- <p :class="className" v-if="statusCode.password">{{ statusCode.password[0] }}</p> -->
-                    </div>
+                      
+                    </div> -->
                     <div class="mb-3">
                         <div class="form-field">
                             <label class="form-label text-secondary">Day</label>
@@ -64,7 +64,7 @@
             let statusCode = ref('')
             let form = reactive({
                 starting_time: '',
-                end_time: '',
+                // end_time: '',
                 status: 'active',
                 // password_confirmation:'',
                 day: '',

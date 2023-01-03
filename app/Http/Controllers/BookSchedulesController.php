@@ -9,6 +9,7 @@ use App\Models\BookSchedules;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BookScheduleResources;
+use App\Http\Resources\CheckBookStatusResource;
 use Brick\Math\BigInteger;
 
 class BookSchedulesController extends Controller
@@ -50,7 +51,10 @@ class BookSchedulesController extends Controller
             'user_id' => Auth::user()->id,
             'schedule_id' => $request->schedule_id,
             'details' => $request->details,
-            'status' => $request->status
+            'status' => $request->status,
+            'date' => $request->date,
+            'time' => $request->time,
+
         ]);
 
         return new BookScheduleResources($bookSchedules);
@@ -62,9 +66,11 @@ class BookSchedulesController extends Controller
      * @param  \App\Models\BookSchedules  $bookSchedules
      * @return \Illuminate\Http\Response
      */
-    public function show(BookSchedules $bookSchedules)
+    public function show(Request $request,$id)
     {
-        //
+        return CheckBookStatusResource::collection(
+            BookSchedules::where('user_id', $id)->get()
+        );
     }
 
     /**

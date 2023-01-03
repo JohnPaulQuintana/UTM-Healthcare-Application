@@ -25,8 +25,10 @@ class ConsultationRequest extends FormRequest
     {
         return [
             'schedule_id' => ['required', 'int'],
-            'details' => ['required', 'string'],
-            'status' => ['required', 'string']
+            'details' => ['string'],
+            'status' => ['required', 'string'],
+            'date' => ['required', 'string'],
+            'time' => ['required', 'string'],
         ];
     }
 }

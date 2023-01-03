@@ -169,16 +169,19 @@ class AuthController extends Controller
     }
 
     // working on delete
-    // public function destroy(User $users)
-    // {
-    //     // $task->delete();
-    //     // return response(null, 204);
-    //     return $users;
-    //     // return $this->isNotAuthorized($users) ? $this->isNotAuthorized($users) :  $users->delete();
-    // }
-    // private function isNotAuthorized($users){
-    //     if(Auth::user()->id !== $users->user_id) {
-    //         return $this->error('', 'you are not Authorized to make this request', 403);
-    //     }
-    // }
+    public function destroy(User $users)
+    {
+        $user = User::where('id',Auth::user()->id)->first();
+
+        // return response(null, 204);
+        // return $id;
+        return $this->isNotAuthorized($user) ? $this->isNotAuthorized($user) :  $user->delete();
+    }
+    private function isNotAuthorized($user){
+        // return $user;
+        if(Auth::user()->id !== $user->id) {
+            return $this->error('', 'you are not Authorized to make this request'.Auth::user()->id, 403);
+            // return $user;
+        }
+    }
 }

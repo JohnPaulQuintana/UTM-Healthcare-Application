@@ -11,7 +11,16 @@ use League\CommonMark\Extension\Attributes\Node\Attributes;
 
 class StudentController extends Controller
 {
-    /**
+    // /**
+    //  * Display a listing of the resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function doctor()
+    // {
+
+    // }
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

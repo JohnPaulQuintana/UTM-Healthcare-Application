@@ -65,10 +65,9 @@
                         </div>
                         <p :class="className" v-if="statusCode.name">{{ statusCode.name[0] }}</p>
                     </div>
-                    
                     <div class="d-grid gap-2">
-                        <button ref="btnStudent" class="btn btn-primary" type="submit">Edit</button>
-                        <button ref="btnDoctor" class="btn btn-primary" type="submit">Delete</button>
+                        <input id="btnEdit" class="btn btn-primary" type="submit" v-model="form.edit">
+                        <button id="btnDelete" class="btn btn-primary" type="button" @click="btnDelete">Delete</button>
                     </div>
                 </form>
             </div>
@@ -81,6 +80,7 @@ import axios from 'axios'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import $ from 'jquery'
 export default {
     setup(){
         const router = useRouter()
@@ -92,7 +92,9 @@ export default {
             password_confirmation: '',
             // password_confirmation:'',
             name: '',
-            token: store.getters.getToken
+            token: store.getters.getToken,
+            edit: 'Edit',
+            delete:'Delete'
 
         });
         let empty = ref(false)
@@ -104,6 +106,23 @@ export default {
                 'Content-Type': 'application/vnd.api+json',
                 'Authorization': 'Bearer ' + store.getters.getToken
                 }
+        // Delete User
+       const btnDelete = async() =>{
+        await axios.delete('/api/delete/'+store.getters.getTokenId,{headers})
+        .then((res)=>{
+            console.log(res)
+            if(res.data === 1){
+                let defaultToken = {
+                    bearerToken : 0,
+                    name : 0,
+                    speciality : 0,
+                    updated : 1
+                }
+                store.dispatch('removeToken',defaultToken)
+                router.push({name : "Login"})
+            }
+        })
+       }
         const signup = async() => {
             await axios.post('/api/update/'+store.getters.getTokenId,form, {headers})
             .then((res)=>{
@@ -113,10 +132,11 @@ export default {
                 statusCode.value = ''
                 className.value = ''
                 let defaultToken = {
-                    bearerToken : res.data.data.token,
-                    name : res.data.data.user.name,
-                    speciality : res.data.data.user.speciality,
-                    id : res.data.data.user.id
+                    bearerToken : 0,
+                    name : 0,
+                    speciality : 0,
+                    id : 0,
+                    updated: 0
                 }
                 // restoring token name in localstorage
                 store.dispatch('setToken',defaultToken)
@@ -142,7 +162,7 @@ export default {
             signup,
             statusCode,
             className,
-            empty
+            empty,btnDelete
           
         }
 

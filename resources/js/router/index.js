@@ -15,6 +15,8 @@ import Profile from '../pages/Profile.vue'
 import ProfileInfo from '../pages/ProfileInfo.vue'
 import Rating from '../pages/Rating.vue'
 import NotAuthorized from '../pages/NotAuthorized.vue'
+import PopUp from '../pages/PopUp.vue'
+import RequestStatus from '../pages/RequestStatus.vue'
 const routes = [
     {
         path: '/',
@@ -71,7 +73,7 @@ const routes = [
         },
     },
     {
-        path: '/book/:id',
+        path: '/book/:id/:time/:date',
         name: 'Book',
         component: Book,
         // meta: {title : 'User'}
@@ -140,7 +142,23 @@ const routes = [
         meta:{
             requiresAuth:false
         },
-    }
+    },
+    {
+        path: '/popup',
+        name: 'Popup',
+        component: PopUp,
+        meta:{
+            requiresAuth:false
+        },
+    },
+    {
+        path: '/request-status',
+        name: 'RequestStatus',
+        component: RequestStatus,
+        meta:{
+            requiresAuth:true
+        },
+    },
 
 ];
 
@@ -170,25 +188,25 @@ router.beforeEach(async(to, from,next)=>{
         next()
         // next()
     }
-    // // problem is doctor redirected to a student pages
-    if(to.meta.requiresAuth == false && store.getters.getToken != 0){
-        if(store.getters.getTokenSpeciality == 'Doctor' || store.getters.getTokenSpeciality == 'doctor'){
-            // return { name : 'Doctor' }
-            console.log('Doctor')
-            next({name : "Doctor"})
-        }else{
-            next()
-        }
-        if (store.getters.getTokenSpeciality == 'Student' || store.getters.getTokenSpeciality == 'student') {
-            console.log('student')
-            next({name : "Student"})
-            // return { name : 'Student' }
-        }else{
-            next()
-        }
+    // // // problem is doctor redirected to a student pages
+    // if(to.meta.requiresAuth == false && store.getters.getToken != 0){
+    //     if(store.getters.getTokenSpeciality == 'Doctor' || store.getters.getTokenSpeciality == 'doctor'){
+    //         // return { name : 'Doctor' }
+    //         console.log('Doctor')
+    //         next({name : "Doctor"})
+    //     }else{
+    //         next()
+    //     }
+    //     if (store.getters.getTokenSpeciality == 'Student' || store.getters.getTokenSpeciality == 'student') {
+    //         console.log('student')
+    //         next({name : "Student"})
+    //         // return { name : 'Student' }
+    //     }else{
+    //         next()
+    //     }
         
     
-    }
+    // }
      
     // retunf false after the login attemp
     

@@ -48,7 +48,7 @@ class ScheduleController extends Controller
         $sched = Schedule::create([
             'user_id' => Auth::user()->id,
             'starting_time' => $request->starting_time,
-            'end_time' => $request->end_time,
+            // 'end_time' => $request->end_time,
             'day' => $request->day,
             'status' => 'active',
         ]);

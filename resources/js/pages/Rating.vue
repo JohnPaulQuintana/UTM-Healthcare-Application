@@ -3,8 +3,9 @@
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
         <div class="row">
             <h1 class="text-center">Hello User, Give them a Ratings!</h1>
-            <div class="col-sm-8 mb-4" v-for="(doctorDetail,index) in doctorDetails" :key="index"> 
-                <div class="card responsive" >
+            <div class="col-sm-8 mb-4"> 
+                <!-- {{ doctorDetails.username }} -->
+                <div class="card responsive">
                     <div class="card-body p-4">
                         <div class="doctor-content">
                             <div class="col-sm-3 h-25 user-profile p-2">
@@ -12,8 +13,8 @@
                             </div>
                             <div class="col-sm-5 p-2 h-25">
                                 <p class="card-text">Rating : 5</p>
-                                <p class="card-text"><span>{{ doctorDetail.relationships.userspeciality }}</span> : {{ doctorDetail.relationships.username }}</p>
-                                <p class="card-text">{{ 'Surgeon' }}</p>
+                                <p class="card-text"><span>{{ doctorDetails.userspeciality }}</span> : {{ doctorDetails.username }} </p>
+                                <p class="card-text">{{ doctorDetails.userdetails }}</p>
                             </div>  
                         </div>
                         <br>
@@ -121,6 +122,7 @@
             }    
         },
         mounted(){
+            console.log('dwadaw')
             this.loadDoctorDetails()
         },
         methods: {
@@ -136,7 +138,7 @@
                 await axios.get('/api/student/'+route.params.id,{headers})
                     .then((res)=>{
                         console.log(res)
-                        this.doctorDetails = res.data.data;
+                        this.doctorDetails = res.data.data[0].relationships;
                         
                 })
             },

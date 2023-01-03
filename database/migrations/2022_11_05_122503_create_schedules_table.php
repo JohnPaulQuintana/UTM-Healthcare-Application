@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('starting_time');
-            $table->string('end_time');
+            // $table->string('end_time');
             $table->string('day');
             $table->foreign('user_id')
             ->references('id')

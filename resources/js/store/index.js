@@ -4,14 +4,19 @@ const store = createStore({
 
     state: {
         // define variables
-        token : JSON.parse(localStorage.getItem('token')) || 0
-        
+        token : JSON.parse(localStorage.getItem('token')) || 0,
+        book : JSON.parse(localStorage.getItem('bookInfo')) || 0
     },
 
     mutations: {
         //  update variable value
         UPDATE_TOKEN(state,payload){
             state.token = payload
+        },
+
+        // update book
+        UPDATE_BOOK(state,payload){
+            state.book = payload
         }
     },
 
@@ -25,6 +30,10 @@ const store = createStore({
             localStorage.removeItem('token')
             localStorage.setItem('token',JSON.stringify(payload))
             context.commit('UPDATE_TOKEN', payload)
+        },
+        setBook(context,payload){
+            localStorage.setItem('bookInfo', JSON.stringify(payload))
+            context.commit('UPDATE_BOOK')
         }
     },
 
@@ -41,6 +50,16 @@ const store = createStore({
         },
         getTokenId: function(state) {
             return state.token.id;
+        },
+        getTokenDate: function(state) {
+            return state.token.date;
+        },
+        getTokenTime: function(state) {
+            return state.token.time;
+        },
+        // getBOOK
+        getUpdated:function(state){
+            return state.token.updated;
         }
     }
 })

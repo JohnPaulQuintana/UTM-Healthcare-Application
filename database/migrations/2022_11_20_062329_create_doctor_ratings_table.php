@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('doctor_id');
-            $table->string('ratings');
+            $table->integer('ratings');
             $table->string('feedback');
             $table->foreign('student_id')
             ->references('id')

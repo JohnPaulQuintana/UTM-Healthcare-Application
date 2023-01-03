@@ -25,7 +25,7 @@ class ScheduleRequest extends FormRequest
     {
         return [
             'starting_time' => ['required', 'string'],
-            'end_time' => ['required', 'string'],
+            // 'end_time' => ['required', 'string'],
             'day' => ['required', 'string'],
             'status' => ['required', 'string']
         ];

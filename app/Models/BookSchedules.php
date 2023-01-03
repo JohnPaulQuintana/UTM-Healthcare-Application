@@ -9,7 +9,7 @@ class BookSchedules extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'schedule_id','details', 'status'
+        'user_id', 'schedule_id','details', 'status', 'date', 'time'
     ];
     public function user()
     {

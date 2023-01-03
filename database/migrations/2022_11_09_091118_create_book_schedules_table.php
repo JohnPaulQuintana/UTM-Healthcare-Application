@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('schedule_id');
-            $table->longText('details');
+            $table->longText('details')->nullable();
             $table->string('status');
+            $table->string('date');
+            $table->string('time');
             $table->foreign('user_id')
             ->references('id')
             ->on('users')

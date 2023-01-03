@@ -9,6 +9,8 @@ const getLogout = () => {
         bearerToken : 0,
         name : 0,
         speciality : 0,
+        time : store.getters.getTokenTime,
+        date : store.getters.getTokenDate
     }
     // console.log(this.count.value)
     function logout(){

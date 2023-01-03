@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 card">
-                <!-- {{ form }} -->
+                <!-- {{ $store.getters.getToken }} -->
                 <form @submit.prevent="login">
                     <div class="mb-3">
                         <h1 class="text-center">Login</h1>
@@ -35,6 +35,16 @@
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary" type="submit">Login</button>
                         <div class="text-center"><span>New to BetterHealth? </span><a href="/register"> Sign Up</a></div>
+                    </div>
+                    <br>
+                    
+                    <div class="mb-3 card p-1 bg-dark text-white" v-if="$store.getters.getUpdated == 0">
+                        <h3 class="text-center">Profile Updated, Please login again.</h3>
+                    </div>
+                    <br>
+                    
+                    <div class="mb-3 card p-1 bg-dark text-white" v-if="$store.getters.getUpdated == 1">
+                        <h3 class="text-center">Sad to see you go! All your user data has been deleted.</h3>
                     </div>
                 </form>
             </div>
@@ -78,6 +88,9 @@ export default {
                     name : res.data.data.user.name,
                     speciality : res.data.data.user.speciality,
                     id : res.data.data.user.id,
+                    date : store.getters.getTokenDate || 0,
+                    time : store.getters.getTokenTime || 0,
+
                 }
 
                 // restoring token in localstorage using vuex
