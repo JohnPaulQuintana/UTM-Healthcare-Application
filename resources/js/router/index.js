@@ -17,6 +17,7 @@ import Rating from '../pages/Rating.vue'
 import NotAuthorized from '../pages/NotAuthorized.vue'
 import PopUp from '../pages/PopUp.vue'
 import RequestStatus from '../pages/RequestStatus.vue'
+import Emergency from '../pages/Emergency.vue'
 const routes = [
     {
         path: '/',
@@ -155,6 +156,14 @@ const routes = [
         path: '/request-status',
         name: 'RequestStatus',
         component: RequestStatus,
+        meta:{
+            requiresAuth:true
+        },
+    },
+    {
+        path: '/emergency',
+        name: 'Emergency',
+        component: Emergency,
         meta:{
             requiresAuth:true
         },

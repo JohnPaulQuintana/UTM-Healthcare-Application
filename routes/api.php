@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\BookSchedulesController;
 use App\Http\Controllers\DoctorRatingController;
+use App\Http\Controllers\EmergencyController;
 use App\Models\Schedule;
 
 // use App\Models\DoctorRating;
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[AuthController::class, 'logout']);
 
     Route::resource('/ratings', DoctorRatingController::class);
+    Route::resource('/emergency',EmergencyController::class);
 });
 
 // schedule

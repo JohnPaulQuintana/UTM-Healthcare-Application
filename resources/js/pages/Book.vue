@@ -36,8 +36,7 @@
     import { useRouter, useRoute } from 'vue-router'
     import {useStore} from 'vuex'
 export default {
-    setup(){
-       
+    setup(){   
        const {form, consult} = postBookSchedule()
         return{form,consult}
     },

@@ -1,47 +1,68 @@
 import { reactive, ref} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import $ from 'jquery'
 import axios from 'axios'
 const postBookSchedule = () => {
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
+    // let lat = document.querySelector('#lat').value
     let form = reactive({
-        details: '',
+        emergency_description: '',
+        student_Id: store.getters.getTokenId,
+        doctor_Id: 0,
         status: 'pending',
-        schedule_id: parseInt(route.params.id),
-        time: route.params.time,
-        date: route.params.date
+        latitude:'',
+        longitude:''      
     });
+
+    let msgError = ref()
+    let msgSuccess = ref()
     // set header
     const headers = {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
             'Authorization': 'Bearer ' + store.getters.getToken
             }
-    const consult = async() => {
-        // get time and date 
-        if(route.params.time == 'null' || route.params.date == 'null'){
-            // let id = route.params.id
-            router.push({name : 'Popup'})
-            // router.back()
+    const emergencyAlert = async() => {
+        console.log(form)
+        if(form.emergency_description == ''){
+            msgError.value = 'this is required'
         }else{
-            alert('dwada')
-        
-            await axios.post('/api/bookschedule',form,{headers})
+            msgError.value = ''
+            await axios.post('/api/emergency',form,{headers})
             .then((res)=>{
                 console.log(res)
-                // push login page by name
-                router.push({name: "Student"})
+                msgSuccess.value = 'Emergency alert sent to all the support team!. Please await their call.'
             })
-            //this is a problem after register
             .catch((err)=>{
-                // router.push({name: "Student"})
                 console.log(err)
+                msgSuccess.value = ''
             })
         }
+        // // get time and date 
+        // if(route.params.time == 'null' || route.params.date == 'null'){
+        //     // let id = route.params.id
+        //     router.push({name : 'Popup'})
+        //     // router.back()
+        // }else{
+        //     alert('dwada')
+        
+        //     await axios.post('/api/bookschedule',form,{headers})
+        //     .then((res)=>{
+        //         console.log(res)
+        //         // push login page by name
+        //         router.push({name: "Student"})
+        //     })
+        //     //this is a problem after register
+        //     .catch((err)=>{
+        //         // router.push({name: "Student"})
+        //         console.log(err)
+        //     })
+        // }
     }
-    return { form, consult, route}
+    return { form, emergencyAlert, route, msgError, msgSuccess}
 }
 
 export default postBookSchedule;

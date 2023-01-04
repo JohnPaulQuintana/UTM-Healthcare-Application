@@ -57,7 +57,7 @@
                        <div class="col-sm-12 card p-3">
                         <div class="title text-secondary text-center">
                             <h2><b>Choose Dates</b></h2>
-                            <!-- {{ bookUserStatus }} -->
+                            <!-- {{ bookedStatusChecked }} -->
                             <p><span>Selected : </span>{{ $store.getters.getTokenDate }}</p>
                            
                         </div>
@@ -108,7 +108,7 @@
 
                             <!-- disable-link add later in class-->
                             <a @click="sendNotif" class="btn btn-primary form-control mb-1" id="sendR">Send Request</a>
-                            <a class="btn btn-primary form-control mb-1" id="editR">Edit Request</a>
+                            <a @click="editRequest" class="btn btn-primary form-control mb-1" id="editR">Edit Request</a>
                             <a class="btn btn-primary form-control mb-1" id="deleteR">Delete Request</a>
                         </div>
                        </div>
@@ -138,8 +138,8 @@ import axios from 'axios';
     import $ from 'jquery'
    export default{
         setup(){
-            const {sendNotif, setTime, data, msg, bookUserStatus} = sendRequest()
-            return {sendNotif, setTime, data, msg, bookUserStatus}
+            const {sendNotif, setTime, data, msg, bookUserStatus,editRequest} = sendRequest()
+            return {sendNotif, setTime, data, msg, bookUserStatus,editRequest}
         },
 
        

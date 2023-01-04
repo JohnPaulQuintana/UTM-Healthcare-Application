@@ -76,7 +76,7 @@
                                     <router-link :to="{name : 'Student'}" class="nav-link me-4"><span>Home</span></router-link>
                                 </button>
                                 <button class="dropdown-item">
-                                    <router-link :to="{name : 'Schedule'}" class="nav-link me-4"><span>Emergency Call</span></router-link>
+                                    <router-link :to="{name : 'Emergency'}" class="nav-link me-4"><span>Emergency Call</span></router-link>
                                 </button>
                                 <button class="dropdown-item">
                                     <router-link :to="{name : 'RequestStatus'}" class="nav-link me-4"><span>Request Status</span></router-link>
