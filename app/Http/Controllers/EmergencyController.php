@@ -16,7 +16,9 @@ class EmergencyController extends Controller
      */
     public function index()
     {
-        //
+        return EmergencyResource::collection(
+            Emergency::where('status','pending')->get()
+        );
     }
 
     /**
@@ -41,7 +43,9 @@ class EmergencyController extends Controller
         $emergencyNotif = Emergency::create([
             'emergency_description' => $request->emergency_description,
             'student_Id' => $request->student_Id,
+            'student_Name' => $request->student_Name,
             'doctor_Id' => $request->doctor_Id,
+            'doctor_Name' => $request->doctor_Name,
             'status' => $request->status,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,

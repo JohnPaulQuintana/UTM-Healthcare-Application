@@ -25,6 +25,7 @@ class EmergencyRequest extends FormRequest
     {
         return [
             'emergency_description' => ['required', 'string'],
+            'student_Name' => ['required', 'string'],
         ];
     }
 }

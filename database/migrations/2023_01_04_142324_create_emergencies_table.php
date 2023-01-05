@@ -16,12 +16,15 @@ return new class extends Migration
         Schema::create('emergencies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_Id');
+            $table->string('student_Name')->nullable();
             $table->unsignedBigInteger('doctor_Id')->nullable();//for doctor if accepted emergency
+            $table->string('doctor_Name')->nullable();
             $table->longText('emergency_description');
             $table->string('latitude');
             $table->string('longitude'); 
             $table->string('status');
             $table->timestamps();
+            
         });
     }
 

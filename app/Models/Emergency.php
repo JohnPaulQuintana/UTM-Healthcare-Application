@@ -9,5 +9,5 @@ class Emergency extends Model
 {
     
     use HasFactory;
-    protected $fillable = ['emergency_description', 'student_Id', 'doctor_Id', 'status','latitude','longitude'];
+    protected $fillable = ['emergency_description', 'student_Id', 'doctor_Id', 'status','latitude','longitude','student_Name','doctor_Name'];
 }

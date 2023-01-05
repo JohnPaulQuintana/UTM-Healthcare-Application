@@ -11,7 +11,9 @@ const postBookSchedule = () => {
     let form = reactive({
         emergency_description: '',
         student_Id: store.getters.getTokenId,
+        student_Name: store.getters.getTokenName,
         doctor_Id: 0,
+        doctor_Name: '',
         status: 'pending',
         latitude:'',
         longitude:''      
@@ -29,6 +31,7 @@ const postBookSchedule = () => {
         console.log(form)
         if(form.emergency_description == ''){
             msgError.value = 'this is required'
+            // console.log(store.getters.getTokenName)
         }else{
             msgError.value = ''
             await axios.post('/api/emergency',form,{headers})

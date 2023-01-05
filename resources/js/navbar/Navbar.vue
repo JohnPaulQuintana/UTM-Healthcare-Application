@@ -50,6 +50,9 @@
                                 <button class="dropdown-item">
                                     <router-link :to="{name : 'Profile'}" class="nav-link me-4"><span>Profile</span></router-link>
                                 </button>
+                                <button class="dropdown-item">
+                                    <router-link :to="{name : 'EmergencyRequest'}" class="nav-link me-4"><span>Emergency-Request</span></router-link>
+                                </button>
                                 
                                
                             </div>
