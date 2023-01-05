@@ -14,12 +14,21 @@ const getEmergencyRequest = () => {
     }
 
     let student_Emergency = ref({})
+    // map credentials
+    const renderData = ref()
+    let renderMap = ref()
+    let renderMarker = ref()
+    let renderAttr = ref()
+    let renderTileUrls = ref()
+    let renderTiles = ref()
+
     const getEmergency = async() => {
         await axios.get('/api/emergency',{headers})
         .then((res)=>{
             // console.log(res)
             student_Emergency.value = res.data.data
             console.log(student_Emergency.value )
+            loadMap(student_Emergency.value)
         })
         .catch((err) => {
             console.log(err)
@@ -27,8 +36,29 @@ const getEmergencyRequest = () => {
     }
     onMounted(()=>{
         getEmergency()
+        
     })
-    return {getEmergency, student_Emergency}
+
+    // emergency click
+   const clickEvents = (student_Id) => {
+        if(student_Id){
+          // uncomment this after you slove the ratings problem
+          router.push('/emergency-details/'+student_Id) 
+        }
+      }             
+    const loadMap = (data) => {
+        // problem here is once na madami na yung load ng request
+        console.log(data[0].latitude)
+        // rendered map
+        renderMap = L.map('map').setView([14.6741293, 120.51129070000002], 12);
+        renderMarker = L.marker([0, 0]).addTo(renderMap);
+        renderAttr = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        renderTileUrls = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+        renderTiles = L.tileLayer(renderTileUrls, {renderAttr})
+        renderTiles.addTo(renderMap)
+        renderMarker.setLatLng([data[0].latitude, data[0].longitude])
+    } 
+    return {getEmergency, student_Emergency,clickEvents,loadMap}
 }
 
 export default getEmergencyRequest;

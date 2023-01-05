@@ -19,6 +19,7 @@ import PopUp from '../pages/PopUp.vue'
 import RequestStatus from '../pages/RequestStatus.vue'
 import Emergency from '../pages/Emergency.vue'
 import EmergencyRequest from '../pages/EmergencyRequest.vue'
+import EmergencyDetails from '../pages/EmergencyDetails.vue'
 const routes = [
     {
         path: '/',
@@ -173,6 +174,14 @@ const routes = [
         path: '/emergency-request',
         name: 'EmergencyRequest',
         component: EmergencyRequest,
+        meta:{
+            requiresAuth:true
+        },
+    },
+    {
+        path: '/emergency-details/:id',
+        name: 'EmergencyDetails',
+        component: EmergencyDetails,
         meta:{
             requiresAuth:true
         },

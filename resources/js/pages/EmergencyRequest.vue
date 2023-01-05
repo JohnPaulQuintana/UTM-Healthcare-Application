@@ -5,7 +5,7 @@
         <div class="row">
             <h1><b>Pending Emergency Calls</b></h1>
             
-            <div class='col-sm-6 mb-4' v-for="(studentEmergency,index) in student_Emergency"  :key="index">
+            <div class='col-sm-6 mb-4' @click="clickEvents(studentEmergency.student_Id)" v-for="(studentEmergency,index) in student_Emergency"  :key="index">
                 <div class='card'>
                     <div class='card-body p-4'>
                         <div class='user-content'>
@@ -18,10 +18,10 @@
                                 <p class="card-text">{{ studentEmergency.emergency_description }}</p>
                             </div>
                         </div>
-                        <div class="col-md-12 text-end">
+                        <!-- <div class="col-md-12 text-end">
                             <a :href="'puntaka/'"><font-awesome-icon icon="fa-solid fa-circle-check" class="me-4 text-success fa-2x" /></a>
                             <a href="#"><font-awesome-icon icon="fa-solid fa-circle-xmark" class="text-danger fa-2x" /></a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -36,8 +36,8 @@
     import getEmergencyRequest from '../composables/getEmergencyRequest.js'
     export default {
         setup(){
-            const {getEmergency,student_Emergency} = getEmergencyRequest()
-            return {student_Emergency}
+            const {getEmergency,student_Emergency,clickEvents} = getEmergencyRequest()
+            return {student_Emergency,clickEvents}
         }
     }
 </script>
