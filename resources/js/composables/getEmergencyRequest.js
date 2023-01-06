@@ -2,6 +2,7 @@ import { useStore } from "vuex";
 import { ref,reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { map } from "jquery";
 
 const getEmergencyRequest = () => {
     const store = useStore()
@@ -21,7 +22,7 @@ const getEmergencyRequest = () => {
     let renderAttr = ref()
     let renderTileUrls = ref()
     let renderTiles = ref()
-
+    let circle1 = ref(null)
     const getEmergency = async() => {
         await axios.get('/api/emergency',{headers})
         .then((res)=>{
@@ -57,7 +58,24 @@ const getEmergencyRequest = () => {
         renderTiles = L.tileLayer(renderTileUrls, {renderAttr})
         renderTiles.addTo(renderMap)
         renderMarker.setLatLng([data[0].latitude, data[0].longitude])
-    } 
+        renderMarker.bindPopup("<h4 class='bg-light text-danger'><b>User location found!.</b>.</h4>").openPopup();
+        // patient circle location
+        circle1 = L.circle([data[0].latitude, data[0].longitude], {
+            color: 'red',
+            fillColor: '#d46675',
+            fillOpacity: 0.2    ,
+            radius: 100}).addTo(renderMap)
+        
+        } 
+        // circle1.addTo(renderMap)
+
+    // const clickMap = () => {
+    //     // click map
+    //     renderMap.on('click',(e)=>{
+    //         console.log(e)
+    //         console.log('click map')
+    //     })
+    // }
     return {getEmergency, student_Emergency,clickEvents,loadMap}
 }
 
