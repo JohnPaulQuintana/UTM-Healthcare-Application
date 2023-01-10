@@ -11,8 +11,9 @@
                             <div class="col-sm-3 h-25 user-profile p-2">
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-7x"/>
                             </div>
-                            <div class="col-sm-5 p-2 h-25" >
-                                <div class="star-widget" v-for="(docRating,index) in docRatings" :key="index">
+                            <div class="p-3"></div>
+                            <div class="col-sm-5 p-2 h-25">
+                                <div class="star-widget me-5 " v-for="(docRating,index) in docRatings" :key="index">
                                 <ul v-if="Math.round(docRating.rating / docRating.count) == 5">
                                   <li v-for="(rating,index) in ratings" :key="index">
                                       <label v-if="parseInt(rating) <= 5" class="check" :for="index"><font-awesome-icon icon="fa-solid fa-star"/></label>

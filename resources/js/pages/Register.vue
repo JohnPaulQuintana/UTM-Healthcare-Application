@@ -1,18 +1,22 @@
 <template>
     <div class="container">
         <div class="row">
+            <div class="col-md-6 card border border-light">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image">
+            </div>
             <div class="col-md-6 card">
                 <!-- {{ form }} -->
                 <form @submit.prevent="signup">
                     <div class="mb-3">
-                        <h1 class="text-center">Sign up</h1>
+                        <h1 class="text-center text-primary">Sign up</h1>
                     </div>
                     <hr/>
                     <div class="mb-3">
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Email ID</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-primary"/>
                                 <input type="email" name="email" class="input-text text-secondary" :class="className" :id="id" v-model="form.email">
                             </div>
                         </div>
@@ -22,7 +26,7 @@
                        <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Password</label>
                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary" />
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-primary" />
                                 <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.password">
                            </div>
                        </div>
@@ -42,7 +46,7 @@
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Name</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-user" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-user" class="icon text-primary"/>
                                 <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.name">
                             </div>
                         </div>
@@ -52,7 +56,7 @@
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Matric</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-fingerprint" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-fingerprint" class="icon text-primary"/>
                                 <input type="number" name="matric" class="input-text text-secondary" :class="className" :id="id" v-model="form.matric">
                             </div>
                         </div>
@@ -62,7 +66,7 @@
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Speciality</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-list-check" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-list-check" class="icon text-primary"/>
                                 <input @input="checkInput" type="text" name="speciality" class="input-text text-secondary" :class="className" :id="id" v-model="form.speciality" placeholder="Student | Doctor">
                             </div>
                         </div>
@@ -72,7 +76,7 @@
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">About</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-circle-info" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-circle-info" class="icon text-primary"/>
                                 <input type="text" name="About" class="input-text text-secondary" :class="className" :id="id" v-model="form.about">
                             </div>
                         </div>
@@ -94,6 +98,7 @@ import axios from 'axios'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import images from '../images/signup.png'
 export default {
     setup(){
         const router = useRouter()
@@ -196,6 +201,7 @@ export default {
     data () {
         return {
             id: null,
+            image:images
         }
     },
     mounted () {

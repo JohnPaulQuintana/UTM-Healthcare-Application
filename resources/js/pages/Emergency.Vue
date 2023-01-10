@@ -2,12 +2,15 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 bg-light p-2"><h2 class="text-center text-secondary">Emergency Service.</h2></div>
+                <div class="col-sm-12 bg-light p-2"><h2 class="text-center text-primary">Emergency Service.</h2></div>
                     <!-- <label id="prompt">{{ permisionStatus }}</label> -->
                     <!-- {{ positionLat }} -->
                    
                     <div class="col-sm-6 card" id="map"></div>
                     <div class="col-sm-6 card">
+                        <div class="card">
+                            <img :src="image" alt="" style="height:20em"/>
+                        </div>
                         <form @submit.prevent="emergencyAlert">
                            <div class="mb-4"></div>
                             <div class="mb-3">
@@ -15,7 +18,7 @@
                                     <label class="form-label text-secondary">Description for emergency</label>
                                     <div class="mb-content">
                                         <!-- <font-awesome-icon icon="fa-solid fa-at" class="icon text-secondary"/> -->
-                                        <font-awesome-icon icon="fa-solid fa-truck-medical" class="icon text-secondary" />
+                                        <font-awesome-icon icon="fa-solid fa-truck-medical" class="icon text-primary" />
                                         <textarea cols="40" rows="5" class="input-text" v-model="form.emergency_description"></textarea>
                                     
                                     </div>
@@ -59,6 +62,7 @@
     import postBookSchedule from '../composables/postBookSchedule.js'
     // import { useRouter, useRoute } from 'vue-router'
     import {useStore} from 'vuex'
+    import images from '../images/emergency.png'
     export default {
         setup(){
             const renderResponse = ref()
@@ -155,7 +159,12 @@
             const {form, emergencyAlert,msgError,msgSuccess} = postBookSchedule()
             
             return {clickMap,form,emergencyAlert,msgError,msgSuccess,locationCred,renderData,renderMap,renderAttr,renderTiles,renderTileUrls,permisionStatus,positionLat,positionLong}
-        }
+        },
+        data() {
+            return {
+                image:images
+            }
+        },
    }
     
 </script>

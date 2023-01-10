@@ -83,9 +83,15 @@ class EmergencyController extends Controller
      * @param  \App\Models\Emergency  $emergency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Emergency $emergency)
+    public function update(EmergencyRequest $request)
     {
-        //
+        $user = Emergency::where('student_Id',$request->id)->where('status','pending')->first();
+        $user->doctor_Id = $request->doctor_Id;
+        $user->doctor_Name = $request->doctor_Name;
+        $user->status = $request->status;
+        $user->save();
+        return new EmergencyResource($user);
+        // return $user;
     }
 
     /**

@@ -3,10 +3,54 @@
     <!-- <h1 class="text">dwada</h1> -->
     <!-- {{ docRatings }} -->
     <div class="container">
-        <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
+        <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span> <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="text-danger" /></h4><br>
         <div class="row">
+          <div class="col-md-12 card" style="height: 10rem;">
+     
+              <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <!-- {{ image.st1 }} -->
+                    <img :src="image.st1" class="d-block w-50" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>First slide label</h5>
+                      <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <!-- change size later -->
+                    <img :src="image.st2" class="d-block w-50" alt="..." >
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Second slide label</h5>
+                      <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    
+                    <img :src="image.st3" class="d-block w-50" alt="..." style="height: 10rem;">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5 class="text-end text-secondary me-5" style="margin-right:100em">Third slide label</h5>
+                      <p class="text-end text-secondary">Some representative placeholder content for the third slide.</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+          </div>
           <h1>Available Doctors</h1>
-            <div id="myid" :data-id="schedule.doctor_id" @click="clickEvents(schedule.doctor_id)" class="col-sm-6 mb-4" v-for="(schedule,index) in docRatings" :key="index">
+            <div id="myid" :data-id="schedule.doctor_id" @click="clickEvents(schedule.doctor_id)" class="col-sm-4 mb-4" v-for="(schedule,index) in docRatings" :key="index">
               <!-- {{ schedule }} -->
               <div class="card" >
                 <div class="card-body p-1">
@@ -14,6 +58,7 @@
                             <div class="col-sm-3 h-25 user-profile p-2">
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-6x"/>
                             </div>
+                            <div class="p-4"></div>
                             <div class="col-sm-5 p-2 h-25">
                               <!-- <p>{{ Math.round(schedule.rating / schedule.count)}}</p> -->
                               <div class="star-widget">
@@ -111,6 +156,9 @@
 // import { match } from 'assert'
     // import {ref, onMounted} from 'vue'
     import $ from 'jquery'
+    import images from '../images/Online Doctor-amico.png'
+    import images2 from '../images/Online Doctor-pana.png'
+    import images3 from '../images/Online Doctor-rafiki.png'
   export default{
     setup(){},
   // load the schedule using option api
@@ -126,7 +174,11 @@
               'rate-4' : 4,
               'rate-5' : 5,
           },
-          
+          image: {
+            st1 : images, 
+            st2 : images2,
+            st3 : images3
+          }
         }    
     },
     computed(){
@@ -207,13 +259,13 @@
               
             })
       },
-      clickEvents(id) {
-        if(id){
-          // uncomment this after you slove the ratings problem
-          this.$router.push('/profile_info/'+id) 
-        }
-      },             
-     },
+        clickEvents(id) {
+          if(id){
+            // uncomment this after you slove the ratings problem
+            this.$router.push('/profile_info/'+id) 
+          }
+        },             
+      },
   }
 </script>
 <style scoped>
@@ -255,4 +307,6 @@ p{
 label.check{
   color: #fd4;
 }
+
+
 </style>

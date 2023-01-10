@@ -2,7 +2,10 @@
     <!-- {{ token_id }} -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"><b>UTM-Healthcare Application</b></a>
+                <a class="navbar-brand" href="#">
+                    <img :src="image" alt="" class="p-1">
+                    <b>UTM-Healthcare Application</b>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -114,6 +117,7 @@
     // import { useRouter, useRoute } from 'vue-router'
     // import { useStore } from 'vuex';
     import store from "../store/index.js";
+    import images from '../images/logo.jpg'
     export default {
         setup () {
             // to access function composable
@@ -125,7 +129,8 @@
            return {
                 token_id : store.getters.getTokenId,
                 clearTimer: '',
-                count : 0
+                count : 0,
+                image : images
            }
         },
         mounted() {
@@ -197,4 +202,8 @@
     .fade-leave-active{
             transition: opacity 0.5s ease-out;
         }
+    img{
+        width: 100px;
+        height: 40px;
+    }
 </style>

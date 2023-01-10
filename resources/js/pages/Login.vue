@@ -1,18 +1,22 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 card">
+            <div class="col-md-6 card border border-light">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image">
+            </div>
+            <div class="col-md-6 card border border-light">
                 <!-- {{ $store.getters.getToken }} -->
                 <form @submit.prevent="login">
                     <div class="mb-3">
-                        <h1 class="text-center">Login</h1>
+                        <h1 class="text-center text-primary">Login</h1>
                     </div>
-                    <hr/>
+                    <hr class="text-primary mb-4"/>
                     <div class="mb-3">
                         <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Email ID</label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-primary"/>
                                 <input type="email" class="input-text text-secondary" :class="className" :id="id" v-model="form.email">
                             </div>
                         </div>
@@ -22,7 +26,7 @@
                        <div class="form-field">
                             <label :for="id" class="form-label text-secondary">Password</label>
                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary" />
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-primary" />
                                 <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.password">
                            </div>
                        </div>
@@ -48,6 +52,7 @@
                     </div>
                 </form>
             </div>
+           
         </div>
     </div>
 </template>
@@ -58,6 +63,8 @@ import axios from 'axios'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {useStore} from 'vuex'
+// import fs from 'fs'
+import images from "../images/login.png"
 export default {
     setup(){
         const router = useRouter()
@@ -70,6 +77,7 @@ export default {
         let id = ref(null)
         let className = ref('');
         let statusCode = ref('')
+        
         const login = async() => {
             // set header
             const headers = {
@@ -119,6 +127,7 @@ export default {
                 }
             })
         }
+        
         return{
             form,
             login,
@@ -131,7 +140,12 @@ export default {
     data () {
         return {
             id: null,
+            // instatntiate
+            image : images,
+            // loginImages : './UTM-Healthcare-Application/public/images/login.png'
         }
+    },
+    created () {    
     },
     mounted () {
         this.id = this._uid
