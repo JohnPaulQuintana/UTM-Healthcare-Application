@@ -94,6 +94,7 @@ export default {
 
 
 <style scoped>
+
     .container .row .card{
         margin: 10px auto;
         padding: 2em;

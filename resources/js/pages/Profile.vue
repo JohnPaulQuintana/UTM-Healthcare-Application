@@ -1,25 +1,29 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 card">
+            <div class="col-md-6 mt-5" style="height: 25em;">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image" style="height: 25em; width: 100%;">
+            </div>
+            <div class="col-md-6 card" id="prof">
                 <!-- {{ form }} -->
                 <form @submit.prevent="signup">
                     <div class="mb-3">
-                        <h1 class="text-center">Edit Profile</h1>
+                        <h1 class="text-center text-primary"><b>Edit Profile</b></h1>
                         <!-- User Here -->
                         <div class="profile">
                             <font-awesome-icon icon="fa-solid fa-user" class="icon text-secondary userProfile"/>
                         </div>
-                       <div class="profileName">
+                       <div class="profileName text-secondary">
                             <h3><b>{{ $store.getters.getTokenName }}</b></h3>
                        </div>
                     </div>
                     <hr/>
                     <div class="mb-3">
                         <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Email ID</label>
+                            <label :for="id" class="form-label text-secondary"><b>Email ID</b></label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-at" class="icon text-primary"/>
                                 <input type="email" name="email" class="input-text text-secondary" :class="className" :id="id" v-model="form.email">
                             </div>
                         </div>
@@ -27,9 +31,9 @@
                     </div>
                     <div class="mb-3">
                        <div class="form-field">
-                            <label :for="id" class="form-label text-secondary">Current-Password</label>
+                            <label :for="id" class="form-label text-secondary"><b>Current-Password</b></label>
                            <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary" />
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-primary" />
                                 <input type="password" name="password" class="input-text text-secondary" :class="className" :id="id" v-model="form.current_password">
                            </div>
                        </div>
@@ -37,9 +41,9 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-field">
-                            <label class="form-label text-secondary">New Password</label>
+                            <label class="form-label text-secondary"><b>New Password</b></label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-primary"/>
                                 <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.new_password">
                             </div>
                         </div>
@@ -47,9 +51,9 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-field">
-                            <label class="form-label text-secondary">Confirmed-Password</label>
+                            <label class="form-label text-secondary"><b>Confirmed-Password</b></label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-lock" class="icon text-primary"/>
                                 <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.password_confirmation">
                             </div>
                         </div>
@@ -57,9 +61,9 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-field">
-                            <label class="form-label text-secondary">Name</label>
+                            <label class="form-label text-secondary"><b>Name</b></label>
                             <div class="mb-content">
-                                <font-awesome-icon icon="fa-solid fa-user" class="icon text-secondary"/>
+                                <font-awesome-icon icon="fa-solid fa-user" class="icon text-primary"/>
                                 <input type="text" name="name" class="input-text text-secondary" :class="className" :id="id" v-model="form.name">
                             </div>
                         </div>
@@ -80,6 +84,7 @@ import axios from 'axios'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import images from '../images/profile.png'
 import $ from 'jquery'
 export default {
     setup(){
@@ -172,6 +177,7 @@ export default {
     data () {
         return {
             id: null,
+            image:images
         }
     },
     mounted () {
@@ -184,6 +190,14 @@ export default {
 </script>
 
 <style scoped>
+::-webkit-scrollbar{
+        display: none;}
+ .row, #prof{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
     .container .row .card{
         margin: 10px auto;
         padding: 2em;

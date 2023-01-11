@@ -149,6 +149,14 @@
 
 
 <style scoped>
+::-webkit-scrollbar{
+        display: none;}
+ .row{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
 .col-sm-8{
     margin: auto;
 }

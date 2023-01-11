@@ -18,7 +18,8 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-end">
-                            <a :href="'puntaka/'+studentRequest.id"><font-awesome-icon icon="fa-solid fa-circle-check" class="me-4 text-success fa-2x" /></a>
+                            <!-- :href="'puntaka/'+studentRequest.id" -->
+                            <a @click="booked(studentRequest.id)"><font-awesome-icon icon="fa-solid fa-circle-check" class="me-4 text-success fa-2x" /></a>
                             <a href="#"><font-awesome-icon icon="fa-solid fa-circle-xmark" class="text-danger fa-2x" /></a>
                         </div>
                     </div>
@@ -34,9 +35,11 @@ import { useRouter } from 'vue-router'
 import $ from 'jquery'
 // import router from '../router';
 import { useStore } from 'vuex'
+import acceptBookedRequest from '../composables/acceptBookedRequest.js'
     export default {
         setup (){
-            
+            const {booked} = acceptBookedRequest();
+            return{booked}
         },
         
          // load the schedule using option api

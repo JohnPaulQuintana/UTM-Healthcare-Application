@@ -3,8 +3,17 @@
     <div class="container">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
         <div class="row">
-            <h1><b>Pending Emergency Calls</b></h1>
-            
+            <h1 class="text-primary"><b>Pending Emergency Calls</b></h1>
+            <div class="col-md-6 border border-light" style="height: 25em;" v-show="student_Emergency == ''">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image" style="height: 25em; width: 100%;">
+            </div>
+            <div class="col-md-6 border border-light text-center text-secondary p-5" v-show="student_Emergency == ''">
+                <div class="p-5">
+                    <h1>Nothing to display!</h1>
+                    <h3>No more pending emergency calls. Wait for students to send emergency calls.</h3>
+                </div>
+            </div>
             <div class='col-sm-6 mb-4' @click="clickEvents(studentEmergency.student_Id)" v-for="(studentEmergency,index) in student_Emergency"  :key="index">
                 <div class='card'>
                     <div class='card-body p-4'>
@@ -31,17 +40,35 @@
 </div>
 </template>
 <script>
-    import { useStore } from 'vuex'
-    import {useRouter, useRoute} from 'vue-router'
+    // import { useStore } from 'vuex'
+    // import {useRouter, useRoute} from 'vue-router'
     import getEmergencyRequest from '../composables/getEmergencyRequest.js'
+    import images from '../images/noCalls.png'
     export default {
         setup(){
             const {getEmergency,student_Emergency,clickEvents} = getEmergencyRequest()
             return {student_Emergency,clickEvents}
+        },
+        data () {
+            return {
+                
+                // instatntiate
+                image : images,
+                // loginImages : './UTM-Healthcare-Application/public/images/login.png'
+            }
         }
     }
 </script>
-<style scope>
+
+<style scoped>
+::-webkit-scrollbar{
+        display: none;}
+ .row{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
     .user-content{
             display: flex;
             flex-direction: row;

@@ -102,6 +102,14 @@
 </script>
 
 <style scoped>
+::-webkit-scrollbar{
+        display: none;}
+ .row{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
     .container .row .card{
         margin: 10px auto;
         padding: 2em;

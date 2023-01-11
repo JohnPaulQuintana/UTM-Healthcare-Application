@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmergencyRequest;
 use App\Models\Schedule;
 use App\Models\DoctorRating;
 use Illuminate\Http\Request;
@@ -93,9 +94,68 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request)
     {
-        //
+        $updateSched = Schedule::where('user_id',$request->schedule_id)->where('status','active')->get();
+        // $date = "2020-02-22";
+        // $newDate = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d M Y');
+        $data = [];
+        for ($i=0; $i < count($updateSched); $i++) { 
+            $data[$i] = $updateSched[$i];
+
+            $week = \Carbon\Carbon::createFromFormat('Y-m-d', $data[$i]->day)->format('l');
+            $mon = \Carbon\Carbon::createFromFormat('Y-m-d', $data[$i]->day)->format('M');
+            $day = \Carbon\Carbon::createFromFormat('Y-m-d', $data[$i]->day)->format('d');
+            $year = \Carbon\Carbon::createFromFormat('Y-m-d', $data[$i]->day)->format('Y');
+
+            $newDate = $mon.', '.$year.', '.$day.', '.$week[0].$week[1]; 
+            if($newDate == $request->date){
+                        // break;
+                        $tama = 'tama : index '.$i;
+                        $data = $data[$i];
+                        $updateSched[$i]->status = 'booked';
+                        $updateSched[$i]->starting_time = $request->time;
+                        $updateSched[$i]->day = $request->date;
+                        $updateSched[$i]->save();
+                        
+                        return $tama;
+                    }else{
+        
+                    }
+        }
+        // return $data;
+
+        // foreach($updateSched as $key => $val){
+            
+        //     $data = $updateSched->push((object)['keys' => $key]);
+        // //    $date = $val->day;
+        //     // $newDate = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format(' l d M Y');
+        //     // $week = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('l');
+        //     // $mon = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('M');
+        //     // $day = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d');
+        //     // $year = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('Y');
+            
+
+           
+        //     //     $newDate = $mon.', '.$year.', '.$day.', '.$week[0].$week[1]; 
+        //         // $data = $updateSched->push((object)['data' => $newDate]);
+        //     // if($newDate == $request->date){
+        //     //     // break;
+        //     //     // $data = "tama : ";
+        //     //     // $updateSched[$key]->status = 'booked';
+        //     //     // $updateSched[$key]->starting_time = 'booked';
+        //     //     // $updateSched[$key]->day = '2021-1-23';
+        //     //     // $updateSched->save();
+                
+        //         // return $data;
+        //     // }else{
+
+        //     // }
+        //     return $data;
+        // }
+        
+        
+       
     }
 
     /**

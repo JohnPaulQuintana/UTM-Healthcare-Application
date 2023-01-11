@@ -1,11 +1,15 @@
 <template>
     <div class="container">
-        <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
+        <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span> <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="text-danger" /></h4><br>
         <div class="row">
-            <h1 class="text-center">Book Consult</h1>
+            <h1 class="text-center text-primary"><b>Book Consult</b></h1>
             <!-- {{ doctorDetails[0] }} -->
-            <div class="col-sm-8 mb-4"> 
-                <div class="card responsive">
+            <div class="col-md-6 border border-light" style="height: 25em;">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image" style="height: 25em; width: 100%;">
+            </div>
+            <div class="col-sm-6 mb-4" id="scr" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;"> 
+                <div class="responsive">
                     <div class="card-body p-4">
                         <div class="doctor-content">
                             <div class="col-sm-3 h-25 user-profile p-2">
@@ -56,27 +60,45 @@
                         </div>
                         <br>
                        <div class="col-sm-12 card p-3">
+                       
                         <div class="title text-secondary text-center">
                             <h2><b>Choose Dates</b></h2>
                             <!-- {{ bookedStatusChecked }} -->
                             <p><span>Selected : </span>{{ $store.getters.getTokenDate }}</p>
                            
                         </div>
+                        <br>
                                 <div class="row" style="margin: auto;">
                                     <div class="col-sm-1 mb-2" style="width: 6rem;" v-for="(date,index) in dates" :key="index">
-                                    <div class="time card border-0 rounded p-1 bg-light">
-                                        <label class="option_item">
-                                            <input type="checkbox" class="checkbox check-dates"  :value="date.month +', '+ date.day +', '+ date.week" :id="'dates-'+index" @click="navigateLinks">
-                                            <div class="option_inner facebook text-center">
-                                            <div class="tickmark"></div>
-                                            <p class="text-secondary" id="weeks">{{ date.week }}</p>
-                                            <h3 class="mb border border-light" id="days" style="margin-top: -5px;">{{ date.day }}</h3>
-                                            <p class="mb text-secondary" id="months">{{ date.month }}</p>
-                                            <!-- <p class="text-white border-bottom-0" id="booked">booked!</p> -->
-                                            </div>
-                                        </label>
+                                        <!-- {{ index }}      -->
+                                        <div class="time card border-0 rounded p-1 bg-light">
+                                            <label class="option_item">
+                                                <input type="checkbox" class="checkbox check-dates"  :value="date.month +', '+ date.day +', '+ date.week" :id="'dates-'+index" @click="navigateLinks">
+                                                <div class="option_inner facebook text-center">
+                                                <div class="tickmark"></div>
+                                                <p class="text-secondary" id="weeks">{{ date.week }}</p>
+                                                <h3 class="mb border border-light" id="days" style="margin-top: -5px;">{{ date.day }}</h3>
+                                                <p class="mb text-secondary" id="months">{{ date.month }}</p>
+                                                <!-- <p class="text-white border-bottom-0" id="booked">booked!</p> -->
+                                                </div>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+                                    <!-- booked
+                                    <div class="col-sm-1 mb-2" style="width: 6rem;">
+                                        <div class="time card border-0 rounded p-1 bg-light" id="booked-sched"> 
+                                            <label class="option_item">
+                                                <input type="checkbox" class="checkbox check-dates" value="ddawda" checked>
+                                                <div class="option_inner facebook text-center">
+                                                <div class="tickmark"></div>
+                                                <p class="text-secondary" id="weeks">{{ 'Th' }}</p>
+                                                <h3 class="mb border border-light" id="days" style="margin-top: -5px;">{{ 12 }}</h3>
+                                                <p class="mb text-secondary" id="months">{{ 'jan, 2023' }}</p>
+                                                <p class="text-white border-top-0 rounded" id="booked" style="position: absolute; top: 0; height: fit-content;">booked!</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div> -->
                                 </div>
                             <br/>
                             <!-- {{ bookedD }} -->
@@ -84,21 +106,37 @@
                                 <h2><b>Choose Time</b></h2>
                                 <p><span>Selected : </span>{{ $store.getters.getTokenTime }}</p>
                             </div>
-                           
+                           <br>
                                 <div class="row" style="margin: auto;">
                                     <div class="col-sm-2 mb-2" style="width: 8rem;" v-for="(date,index) in dates" :key="index">
-                                    <div class="time card border-0 p-1 bg-light text-center">
-                                        <label class="option_item">
-                                            <!-- {{ bookedInfo }} -->
-                                            <input type="checkbox" class="checkbox check-times" :value="date.hour +':'+ date.minute +' '+ date.am_pm" :id="'times-'+index" @click="navigateLinks">
-                                            <div class="option_inner facebook text-center" style="width: 7rem;">
-                                            <div class="tickmark"></div>
-                                            <span class="text-secondary" id="time">{{ date.hour }}:{{ date.minute }} {{ date.am_pm }}</span>
-                                            <!-- <span class="mb text-secondary" id="months"></span> -->
-                                            </div>
-                                        </label>
+                                        <!-- {{ index }} -->
+                                        <div class="time card border-0 p-1 bg-light text-center">
+                                            <label class="option_item">
+                                                <!-- {{ bookedInfo }} -->
+                                                <!-- <input type="text" name="" id="" :value="index" hidden> -->
+                                                <input type="checkbox" class="checkbox check-times" :value="date.hour +':'+ date.minute +' '+ date.am_pm" :id="'times-'+index" @click="navigateLinks">
+                                                <div class="option_inner facebook text-center" style="width: 7rem;">
+                                                <div class="tickmark"></div>
+                                                <span class="text-secondary" id="time">{{ date.hour }}:{{ date.minute }} {{ date.am_pm }}</span>
+                                                <!-- <span class="mb text-secondary" id="months"></span> -->
+                                                </div>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+                                    <!-- booked
+                                    <div class="col-sm-2 mb-2" style="width: 8rem;">
+                                        <div class="time card border-0 p-1 bg-light text-center">
+                                            <label class="option_item">
+                                                {{ bookedInfo }}
+                                                <input type="checkbox" class="checkbox check-times" checked>
+                                                <div class="option_inner facebook text-center" style="width: 7rem;">
+                                                <div class="tickmark"></div>
+                                                <span class="text-secondary" id="time">{{ '01:09 AM' }}</span>
+                                                <p class="text-white border-top-0 rounded" id="booked" style="position: absolute; top: 0; height: fit-content;">booked!</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div> -->
                                 </div>
                                
                         <br>
@@ -108,17 +146,23 @@
                             <!-- :href="'/book/'+doctorDetail.relationships.id+'/'+bookTime+'/'+bookDate" -->
 
                             <!-- disable-link add later in class-->
+                            {{ message }}
                             <a @click="sendNotif" class="btn btn-primary form-control mb-1" id="sendR">Send Request</a>
-                            <a @click="editRequest" class="btn btn-primary form-control mb-1" id="editR">Edit Request</a>
-                            <a class="btn btn-primary form-control mb-1" id="deleteR">Delete Request</a>
+                            <a @click="editRequest($store.getters.getTokenTime, $store.getters.getTokenDate)" class="btn btn-primary form-control mb-1" id="editR">Edit Request</a>
+                            <a @click="deleteRequest($store.getters.getTokenId)" class="btn btn-primary form-control mb-1" id="deleteR">Delete Request</a>
                         </div>
                        </div>
+                       
                     </div>
+                    
                     <div class="col-sm-12" v-if="setTime == false">
-                        <h2 class="text-white bg-dark text-center">Select a time first</h2>
+                        <h2 class="text-white bg-dark text-center">Select a date and time first</h2>
                     </div>
                     <div class="col-sm-12" v-if="msg == true">
                         <h2 class="text-white bg-dark text-center">Booking request sent to the doctor. Please wait for the doctor's response</h2>
+                    </div>
+                    <div class="col-sm-12" v-else>
+                        <h2 class="text-white bg-dark text-center">{{ message }}</h2>
                     </div>
                 </div>
             </div>
@@ -135,12 +179,13 @@ import axios from 'axios';
     import { useStore } from 'vuex';
     import store from "../store/index.js";
     import sendRequest from '../composables/sendRequest.js'
+    import images from '../images/schedule-bro.png'
     // import { reactive, ref } from 'vue'
     import $ from 'jquery'
    export default{
         setup(){
-            const {sendNotif, setTime, data, msg, bookUserStatus,editRequest} = sendRequest()
-            return {sendNotif, setTime, data, msg, bookUserStatus,editRequest}
+            const {sendNotif, setTime, data, msg, message, bookUserStatus,editRequest,deleteRequest} = sendRequest()
+            return {sendNotif, setTime, data, msg,message, bookUserStatus,editRequest,deleteRequest}
         },
 
        
@@ -169,7 +214,8 @@ import axios from 'axios';
                 bookedInfoDate : null,
                 statusDate : true,     
                 statusTime : true,
-                status: false     
+                status: false,
+                image:images     
             }    
         },
         mounted(){
@@ -372,16 +418,17 @@ import axios from 'axios';
    }
 </script>
 
-
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-} */
+::-webkit-scrollbar{
+        display: none;}
+ #scr,.container{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
 .col-sm-8{
     margin: auto;
 }
@@ -509,5 +556,6 @@ label.check{
             pointer-events: auto;
             display: block;
         }
+        
 </style>
 

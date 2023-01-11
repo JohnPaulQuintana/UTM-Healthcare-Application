@@ -72,7 +72,7 @@ class StudentController extends Controller
     public function show($id)
     {
         return SchedulesResource::collection(
-            Schedule::where('user_id',  $id)->get()//get all
+            Schedule::where('user_id',  $id)->where('status','active')->get()//get all
             
             
         );

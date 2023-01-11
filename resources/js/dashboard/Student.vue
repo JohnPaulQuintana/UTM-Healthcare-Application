@@ -5,7 +5,7 @@
     <div class="container">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span> <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="text-danger" /></h4><br>
         <div class="row">
-          <div class="col-md-12 card" style="height: 10rem;">
+          <!-- <div class="col-md-12 card" style="height: 10rem;">
      
               <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <!-- {{ image.st1 }} -->
+                   
                     <img :src="image.st1" class="d-block w-50" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>First slide label</h5>
@@ -23,7 +23,7 @@
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <!-- change size later -->
+                   
                     <img :src="image.st2" class="d-block w-50" alt="..." >
                     <div class="carousel-caption d-none d-md-block">
                       <h5>Second slide label</h5>
@@ -48,8 +48,18 @@
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
-          </div>
+          </div> -->
           <h1>Available Doctors</h1>
+          <div class="col-md-6 border border-light" style="height: 25em;" v-show="docRatings == ''">
+                <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
+                <img :src="image" style="height: 25em; width: 100%;">
+            </div>
+            <div class="col-md-6 border border-light text-center text-secondary p-5" v-show="docRatings == ''">
+                <div class="p-5">
+                    <h1>Nothing to display!</h1>
+                    <h3>No doctors available. Wait for doctors to set their schedules.</h3>
+                </div>
+            </div>
             <div id="myid" :data-id="schedule.doctor_id" @click="clickEvents(schedule.doctor_id)" class="col-sm-4 mb-4" v-for="(schedule,index) in docRatings" :key="index">
               <!-- {{ schedule }} -->
               <div class="card" >
@@ -157,13 +167,12 @@
     // import {ref, onMounted} from 'vue'
     import $ from 'jquery'
     import images from '../images/Online Doctor-amico.png'
-    import images2 from '../images/Online Doctor-pana.png'
-    import images3 from '../images/Online Doctor-rafiki.png'
   export default{
     setup(){},
   // load the schedule using option api
     data: function(){
       return {
+        
           schedules: [],
           docRatings: [],
           starDisplay: [],
@@ -174,11 +183,7 @@
               'rate-4' : 4,
               'rate-5' : 5,
           },
-          image: {
-            st1 : images, 
-            st2 : images2,
-            st3 : images3
-          }
+          image: images
         }    
     },
     computed(){
@@ -269,6 +274,12 @@
   }
 </script>
 <style scoped>
+::-webkit-scrollbar{
+        display: none;}
+    .container{
+        overflow-y: auto;
+        height: 450px;
+    }
 .card {
   /* height: 20em; */
   background-color: aqua;

@@ -32,6 +32,9 @@ class BookScheduleResources extends JsonResource
                 // 'useremail' => $this->user->email,
                 // 'userspeciality' => $this->user->speciality,
             ],
+            'status' => [
+                'message' => $this->message
+            ]
         ];
     }
 }

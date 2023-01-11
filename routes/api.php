@@ -9,6 +9,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\BookSchedulesController;
 use App\Http\Controllers\DoctorRatingController;
 use App\Http\Controllers\EmergencyController;
+use App\Models\BookSchedules;
 use App\Models\Schedule;
 
 // use App\Models\DoctorRating;
@@ -39,6 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     // Route::resource('/schedule',DoctorScheduleController::class); //pending for now 
     // Route::get('/sched',[ScheduleController::class, 'index']);
     Route::resource('/bookschedule', BookSchedulesController::class);
+    Route::get('/checkStatus/{id}', [BookSchedulesController::class, 'checkStatus']);
     Route::resource('/sched', ScheduleController::class);
     Route::resource('/student', StudentController::class);
     Route::post('/update/{id}',[AuthController::class, 'updateProfile']);
@@ -47,6 +49,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     Route::resource('/ratings', DoctorRatingController::class);
     Route::resource('/emergency',EmergencyController::class);
+
+    Route::get('send/{id}',[BookSchedulesController::class, 'sendnotification']);
 });
 
 // schedule

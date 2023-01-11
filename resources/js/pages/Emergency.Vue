@@ -7,7 +7,7 @@
                     <!-- {{ positionLat }} -->
                    
                     <div class="col-sm-6 card" id="map"></div>
-                    <div class="col-sm-6 card">
+                    <div class="col-sm-6">
                         <div class="card">
                             <img :src="image" alt="" style="height:20em"/>
                         </div>
@@ -170,6 +170,14 @@
 </script>
 <style scoped>
     /* .col-sm-6{height: 40em;} */
+    /* ::-webkit-scrollbar{
+        display: none;} */
+ .row{
+    overflow-y: auto;
+    /* overflow: hidden; */
+    height: 450px;
+    /* border: 1px solid red; */
+   }
     #map { height: 40em; }
     .emergency-info{
         display: flex;
