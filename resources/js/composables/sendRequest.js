@@ -22,8 +22,19 @@ const sendRequest = ()=> {
     let checkMessageDate = ref()
     let clearTimer = ref(null)
     let checkStatusData = ref({})
+    let checkStatusDataPending = ref({})
+    let checkStatusDataReject = ref({})
     let count = ref(0)
     // let bookedStatusChecked = ref({})
+    const userNotify = async(data)=>{
+            await axios.post('/api/fireevent/'+data.id,{data},{headers})
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
     const sendNotif = async() =>{
         console.log("Date : "+store.getters.getTokenDate)
         const dateConfig = store.getters.getTokenDate
@@ -72,7 +83,19 @@ const sendRequest = ()=> {
                         time : res.data.data.attributes.time,}
                     // restoring token in localstorage using vuex
                     store.dispatch('setToken', tokenData)
+
+                    // notify credentials
+                    let notifyCred = {
+                        doctor_id:data.schedule_id,
+                        student_id:store.getters.getTokenId,
+                        student_name:store.getters.getTokenName,
+                        student_booked_date:store.getters.getTokenDate,
+                        student_booked_time:store.getters.getTokenTime
+                    }
+                    userNotify(notifyCred)
                     sendEmail(data.schedule_id)
+                    router.push({name:'Student'})
+
                 }
                 // i need to check the status code later
                
@@ -158,7 +181,7 @@ const sendRequest = ()=> {
                     time : res.data.time,}
                     // restoring token in localstorage using vuex
                     store.dispatch('setToken', tokenData)
-
+                    message.value = "Successfully updated your request!"
                 // push router
                 // router.push({path:'/profile_info2/'+route.params.id})
             })
@@ -167,8 +190,9 @@ const sendRequest = ()=> {
             })
         }
         onMounted(()=>{
-            console.log('dwdwaddwadwad')
+            console.log('ito po yun')
             clearTimer.value=setInterval(checkStatus,3000)
+            // userNotify()
         })
     }
 
@@ -187,6 +211,7 @@ const sendRequest = ()=> {
                     time : 0,}
                 // restoring token in localstorage using vuex
                 store.dispatch('setToken', tokenData)
+                router.push({name:'Student'})
             })
             .catch((err)=>{
                 console.log(err)
@@ -195,11 +220,34 @@ const sendRequest = ()=> {
 
     // check status
     const checkStatus = async()=>{
+        // booked
         await axios.get('/api/checkStatus/'+store.getters.getTokenId,{headers})
         .then((res)=>{
             console.log(res.data)
             checkStatusData.value = res.data
             console.log(checkStatusData.length)
+        })
+        .catch((err)=>{
+            console.log(err)
+            clearInterval(clearTimer.value)
+        })
+        // pending
+        await axios.get('/api/checkStatusPending/'+store.getters.getTokenId,{headers})
+        .then((res)=>{
+            console.log(res.data)
+            checkStatusDataPending.value = res.data
+            console.log(checkStatusDataPending.length)
+        })
+        .catch((err)=>{
+            console.log(err)
+            clearInterval(clearTimer.value)
+        })
+        // reject
+        await axios.get('/api/checkStatusRejected/'+store.getters.getTokenId,{headers})
+        .then((res)=>{
+            console.log(res.data)
+            checkStatusDataReject.value = res.data
+            console.log(checkStatusDatacheckStatusDataReject.length)
         })
         .catch((err)=>{
             console.log(err)
@@ -219,6 +267,7 @@ const sendRequest = ()=> {
         })
     }
 
+
     // life cycle hooks
     onMounted(()=>{
         console.log('dapat paglogout masave yung booked status coming from db.')
@@ -226,6 +275,6 @@ const sendRequest = ()=> {
        checkStatus()
     //    editRequest()
     })
-    return {count,sendNotif,checkStatusData,checkStatus, setTime, data, msg, message, checkIfAlreadyBooked, bookUserStatus, editRequest,deleteRequest}
+    return {userNotify,count,sendNotif,checkStatusData,checkStatusDataPending,checkStatusDataReject,checkStatus, setTime, data, msg, message, checkIfAlreadyBooked, bookUserStatus, editRequest,deleteRequest}
 }
 export default sendRequest;

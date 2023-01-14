@@ -56,6 +56,7 @@
                                 <button class="dropdown-item">
                                     <router-link :to="{name : 'EmergencyRequest'}" class="nav-link me-4"><span><b>Emergency-Request</b></span></router-link>
                                 </button>
+                               
                                 
                                
                             </div>
@@ -66,7 +67,7 @@
                 <!-- authorized Student -->
                 <div class="user" v-else>
                     <ul class="navbar-nav me-5 mb-2 mb-lg-0">
-                        <a class="nav-link"><router-link :to="{name: 'RequestStatus'}"><span class="text-warning" v-if="(count != 0)">{{ count }}</span>  <font-awesome-icon icon="fa-solid fa-bell" /></router-link></a>
+                        <!-- <a class="nav-link"><router-link :to="{name: 'RequestStatus'}"><span class="text-warning" v-if="(count != 0)">{{ count }}</span>  <font-awesome-icon icon="fa-solid fa-bell" /></router-link></a> -->
                         <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ $store.getters.getTokenName }}
@@ -90,7 +91,9 @@
                                 <button class="dropdown-item">
                                     <router-link :to="{name : 'Profile'}" class="nav-link me-4"><span><b>Profile</b></span></router-link>
                                 </button>
-                                
+                                <button class="dropdown-item">
+                                    <router-link :to="{name : 'RequestSuccess'}" class="nav-link me-4"><span><b>Ratings</b></span></router-link>
+                                </button>
                                
                             </div>
                         </form>
@@ -157,7 +160,7 @@
             this.notif()
             this.doctorResponse()
             // refresh
-            //  this.clearTimer=setInterval(this.notif,5000)
+             this.clearTimer=setInterval(this.notif,5000)
         },
         methods: {
             notif(){

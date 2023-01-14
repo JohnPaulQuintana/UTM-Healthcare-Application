@@ -38,12 +38,16 @@ const postBookSchedule = () => {
             .then((res)=>{
                 console.log(res)
                 msgSuccess.value = 'Emergency alert sent to all the support team!. Please await their call.'
+                
             })
             .catch((err)=>{
                 console.log(err)
                 msgSuccess.value = ''
             })
+            sendToAll()
         }
+        
+
         // // get time and date 
         // if(route.params.time == 'null' || route.params.date == 'null'){
         //     // let id = route.params.id
@@ -64,6 +68,20 @@ const postBookSchedule = () => {
         //         console.log(err)
         //     })
         // }
+
+    }
+    // sendToAll
+    const sendToAll = async()=>{
+        // sendToAll
+        await axios.get('/api/sendToAll/'+store.getters.getTokenId,{headers})
+        .then((res)=>{
+            console.log(res.data)
+            // checkStatusData.value = res.data
+        })
+        .catch((err)=>{
+            console.log(err)
+            // clearInterval(clearTimer.value)
+        })
     }
     return { form, emergencyAlert, route, msgError, msgSuccess}
 }

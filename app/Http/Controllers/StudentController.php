@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Schedule;
-use Illuminate\Http\Request;
-use App\Http\Resources\SchedulesResource;
 use App\Models\DoctorRating;
+use Illuminate\Http\Request;
+use App\Models\BookSchedules;
+use App\Http\Resources\SchedulesResource;
 use League\CommonMark\Extension\Attributes\Node\Attributes;
 
 class StudentController extends Controller
@@ -111,4 +113,31 @@ class StudentController extends Controller
     {
         //
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function StatusDone()
+    {
+        $weekStr = ['Mo', 'Tu', 'We','Th','Fr','Sa','Su'];
+        $monStr = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        $date = Carbon::now();
+        $date->toArray();
+        $day = $date->day;
+        $weekName = $weekStr[$date->dayOfWeek-1];
+        $month = $monStr[$date->month-1];
+        $year = $date->year;
+
+        $matchedDate = $month.', '.$year.', '.$day.', '.$weekName;
+        $appointmentDone = BookSchedules::where('status','booked')
+        ->where('date',$matchedDate)
+        ->get();
+
+        
+       
+        return $appointmentDone;
+    }
+
+    
 }

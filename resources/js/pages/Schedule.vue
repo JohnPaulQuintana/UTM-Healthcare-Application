@@ -88,7 +88,7 @@
                 await axios.post('/api/sched',form,{headers})
                 .then((res)=>{
                     console.log(res)
-                    // router.push({name:""});
+                    router.push({name:"Doctor"});
                 })
 
                 .catch((err)=>{

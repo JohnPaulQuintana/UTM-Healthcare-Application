@@ -3,6 +3,9 @@
     <!-- <h1 class="text">dwada</h1> -->
     <!-- {{ docRatings }} -->
     <div class="container">
+  <!-- {{ dataCred }} -->
+        <h5 class="text-secondary text-center" v-show="check">You have a notification from <span class="text-primary">{{ dataCred.doctor_name }}. kindly check your email</span></h5>
+        <hr class="text-primary" style="margin-top:-5px">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span> <font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="text-danger" /></h4><br>
         <div class="row">
           <!-- <div class="col-md-12 card" style="height: 10rem;">
@@ -164,11 +167,43 @@
     import {useRouter, useRoute} from 'vue-router'
 // import { count } from 'console'
 // import { match } from 'assert'
-    // import {ref, onMounted} from 'vue'
+    import {ref, onMounted} from 'vue'
     import $ from 'jquery'
     import images from '../images/Online Doctor-amico.png'
   export default{
-    setup(){},
+    setup(){
+            const store = useStore()
+            let dataCred = ref({})
+            let check = ref(false)
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+  
+            var pusher = new Pusher('b423e7a8d1563736ee2e', {
+                cluster: 'ap1'
+            });
+
+            var channel = pusher.subscribe('popup-channel');
+            channel.bind('user-notify', function(data) {
+                // app.messages.push(JSON.stringify(data));
+                // alert(JSON.stringify(data))
+                // var info = JSON.stringify(data)
+                console.log(JSON.stringify(data))
+                dataCred.value = {
+                    doctor_id : data.cred.doctor_id,
+                    student_id : data.cred.student_id,
+                    doctor_name : data.cred.doctor_name,
+                   
+                }
+                // toastr.success(JSON.stringify(data)+'dwdwadwadwa')
+                if(dataCred.value && dataCred.value.student_id == store.getters.getTokenId){
+                    check.value = true
+                }else{
+                    check.value = false
+                }
+
+            });
+            return {dataCred,check}
+    },
   // load the schedule using option api
     data: function(){
       return {
@@ -183,7 +218,8 @@
               'rate-4' : 4,
               'rate-5' : 5,
           },
-          image: images
+          image: images,
+          clearTimer: ''
         }    
     },
     computed(){
@@ -193,9 +229,12 @@
         // this.loadTask();
         this.loadSchedule()
         this.checkIfAuthorized()
+
+        this.clearTimer=setInterval( this.loadSchedule, 5000)
         // this.getRatings()
      },
      methods: {
+
       checkIfAuthorized(){
                 console.log('dwadaw')
                 const store = useStore()
@@ -215,12 +254,14 @@
                 }   
       },
       async loadSchedule(){
-         const router = useRouter()
-          const store = useStore()
+        //  const router = useRouter()
+          // const store = useStore()
+          let token = JSON.parse(localStorage.getItem("token"))
+          console.log(token)
           const headers = {
               'Accept': 'application/vnd.api+json',
               'Content-Type': 'application/vnd.api+json',
-              'Authorization': 'Bearer ' + store.getters.getToken
+              'Authorization': 'Bearer ' + token.bearerToken
             }
             await axios.get('/api/student',{headers})
             .then((res)=>{
@@ -258,7 +299,8 @@
             .catch((err)=>{
               console.log(err.response.status )
               if(err.response.status == 401 ){
-                   router.push({ name: "Login"  });
+                  //  $router.push({ name: "Login"  });
+                   clearInterval(this.clearTimer)
                   //  console.log('dwahdjawd');  
               }
               

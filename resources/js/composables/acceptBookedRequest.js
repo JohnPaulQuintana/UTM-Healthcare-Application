@@ -26,9 +26,30 @@ const acceptBookedRequest =() => {
         await axios.put('/api/bookschedule/'+form.student_id,form,{headers})
         .then((res)=>{
             console.log(res)
-            sendEmail(form.student_id)
+            // notify credentials
+            let notifyCred = {
+                doctor_id:res.data.schedule_id,
+                doctor_name:res.data.details,
+                student_id:res.data.user_id,
+                // student_name:store.getters.getTokenName,
+                // student_booked_date:store.getters.getTokenDate,
+                // student_booked_time:store.getters.getTokenTime
+            }
+            sendEmailStudent(form.student_id)
+             
+            userNotify(notifyCred)
             // console.log(store.getters.getTokenName)
-            router.push({ name: 'Doctor' });
+            router.push({ name: 'Request' });
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    // send notif
+    const userNotify = async(data)=>{
+        await axios.post('/api/fireevent/'+data.id,{data},{headers})
+        .then((res)=>{
+            console.log(res)
         })
         .catch((err)=>{
             console.log(err)
@@ -47,6 +68,16 @@ const acceptBookedRequest =() => {
         await axios.put('/api/bookschedule/'+form.student_id,form,{headers})
         .then((res)=>{
             console.log(res)
+            let notifyCred = {
+                doctor_id:res.data.schedule_id,
+                doctor_name:res.data.details,
+                student_id:res.data.user_id,
+                // student_name:store.getters.getTokenName,
+                // student_booked_date:store.getters.getTokenDate,
+                // student_booked_time:store.getters.getTokenTime
+            }
+            userNotify(notifyCred)
+            sendEmailStudent(form.student_id)
             // console.log(store.getters.getTokenName)
             router.push({ name: 'Doctor' });
         })
@@ -55,8 +86,8 @@ const acceptBookedRequest =() => {
         })
     }
      // sendEmail
-     const sendEmail = async(doctor_id)=>{
-        await axios.get('/api/send/'+doctor_id,{headers})
+     const sendEmailStudent = async(doctor_id)=>{
+        await axios.get('/api/sendToStudent/'+doctor_id,{headers})
         .then((res)=>{
             console.log(res.data)
             // checkStatusData.value = res.data

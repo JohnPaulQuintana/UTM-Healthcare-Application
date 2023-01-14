@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DoctorRatingRequest;
 use App\Http\Resources\DoctorRatingResource;
+use App\Models\BookSchedules;
 
 class DoctorRatingController extends Controller
 {
@@ -73,7 +74,7 @@ class DoctorRatingController extends Controller
      */
     public function edit(DoctorRating $doctorRating)
     {
-        //
+        
     }
 
     /**
@@ -94,8 +95,10 @@ class DoctorRatingController extends Controller
      * @param  \App\Models\DoctorRating  $doctorRating
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DoctorRating $doctorRating)
+    public function destroy(DoctorRating $doctorRating,$id)
     {
-        //
+        $user = BookSchedules::where('status','booked')->where('user_id',$id)->first();
+        $user->delete();
+        return $user;
     }
 }

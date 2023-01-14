@@ -1,8 +1,12 @@
 <template class="text-center">
     <div id="refresh">
     <div class="container">
+        <!-- {{ dataCred }} -->
+        <h5 class="text-secondary text-center" v-show="check">You have a notification from <span class="text-primary">{{ dataCred.student_name }}</span></h5>
+        <hr class="text-primary" style="margin-top:-5px">
         <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span><font-awesome-icon icon="fa-solid fa-hand-holding-heart" class="text-danger" /></h4><br>
         <div class="row">
+           
             <h1 class="text-primary">Booking requests</h1>
             <div class="col-md-6 border border-light" style="height: 25em;" v-show="studentRequests == ''">
                 <!-- <img v-for="(image,index) in images"  :key="index" :src="image" alt="no images found!"> -->
@@ -45,17 +49,53 @@ import { useStore } from 'vuex'
 import {useRouter, useRoute} from 'vue-router'
 import acceptBookedRequest from '../composables/acceptBookedRequest.js'
 import images from '../images/noCalls.png'
+import {ref,reactive} from 'vue'
+import store from '../store'
     export default {
         setup (){
             const {booked,rejectBooked} = acceptBookedRequest()
-            return {booked,rejectBooked}
+            let dataCred = ref({})
+            let check = ref(false)
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+  
+            var pusher = new Pusher('b423e7a8d1563736ee2e', {
+                cluster: 'ap1'
+            });
+
+            var channel = pusher.subscribe('popup-channel');
+            channel.bind('user-notify', function(data) {
+                // app.messages.push(JSON.stringify(data));
+                // alert(JSON.stringify(data))
+                // var info = JSON.stringify(data)
+                console.log(JSON.stringify(data))
+                dataCred.value = {
+                    doctor_id : data.cred.doctor_id,
+                    student_id : data.cred.student_id,
+                    student_name : data.cred.student_name,
+                    student_booked_date : data.cred.student_booked_date,
+                    student_booked_time : data.cred.student_booked_time,
+                }
+                // toastr.success(JSON.stringify(data)+'dwdwadwadwa')
+                if(dataCred.value && dataCred.value.doctor_id == store.getters.getTokenId){
+                    check.value = true
+                }else{
+                    check.value = false
+                }
+
+            });
+
+
+
+            return {check,booked,rejectBooked,dataCred}
         },
         
          // load the schedule using option api
     data(){
       return {
             studentRequests: [],
-            image : images   
+            image : images,
+            clearTimer : ''  
         }    
     },
     computed(){
@@ -65,15 +105,18 @@ import images from '../images/noCalls.png'
         // this.loadTask();
         this.loadBookSchedule()
         // this.refreshStatus()
+        this.clearTimer=setInterval(this.loadBookSchedule,5000)
+
      },
      methods: {
         loadBookSchedule(){
-                const store = useStore()
-                const router = useRouter()
+                // const store = useStore()
+                // const router = useRouter()
+                let token = JSON.parse(localStorage.getItem("token"))
                 const headers = {
                     'Accept': 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
-                    'Authorization': 'Bearer ' + store.getters.getToken
+                    'Authorization': 'Bearer ' + token.bearerToken
                     }
                    axios.get('/api/bookschedule',{headers})
                     .then((res)=>{
@@ -84,7 +127,12 @@ import images from '../images/noCalls.png'
 
                     .catch((err)=>{
                     console.log(err)
-                    router.push({ name: "Login"  });
+                    if(err.response.status == 401 ){
+                       clearInterval(this.clearTimer)
+                  //  console.log('dwahdjawd');  
+                    }
+                    // router.push({ name: "Login"  });
+                    
                 })
 
                 // setInterval(this.loadBookSchedule, 3000)

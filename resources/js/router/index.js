@@ -20,6 +20,7 @@ import RequestStatus from '../pages/RequestStatus.vue'
 import Emergency from '../pages/Emergency.vue'
 import EmergencyRequest from '../pages/EmergencyRequest.vue'
 import EmergencyDetails from '../pages/EmergencyDetails.vue'
+import RequestSuccess from '../pages/RequestSuccess.vue'
 const routes = [
     {
         path: '/',
@@ -182,6 +183,14 @@ const routes = [
         path: '/emergency-details/:id',
         name: 'EmergencyDetails',
         component: EmergencyDetails,
+        meta:{
+            requiresAuth:true
+        },
+    },
+    {
+        path: '/requestSuccess',
+        name: 'RequestSuccess',
+        component: RequestSuccess,
         meta:{
             requiresAuth:true
         },

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use Notification;
 use App\Models\User;
 
@@ -151,13 +152,33 @@ class BookSchedulesController extends Controller
     }
 
      /**
-     * check status.
+     * check approved.
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\BookSchedules  $bookSchedules
      * @return \Illuminate\Http\Response
      */
     public function checkStatus(BookSchedules $bookSchedules,$id){
-        $checkStat = BookSchedules::where('user_id',$id)->first();
+        $checkStat = BookSchedules::where('user_id',$id)->where('status', 'booked')->get();
+        return $checkStat;
+    }
+     /**
+     * check pending.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BookSchedules  $bookSchedules
+     * @return \Illuminate\Http\Response
+     */
+    public function checkStatusPending(BookSchedules $bookSchedules,$id){
+        $checkStat = BookSchedules::where('user_id',$id)->where('status', 'pending')->get();
+        return $checkStat;
+    }
+     /**
+     * check Reject.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BookSchedules  $bookSchedules
+     * @return \Illuminate\Http\Response
+     */
+    public function checkStatusRejected(BookSchedules $bookSchedules,$id){
+        $checkStat = BookSchedules::where('user_id',$id)->where('status', 'rejected')->get();
         return $checkStat;
     }
 
@@ -168,17 +189,83 @@ class BookSchedulesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sendnotification($id){
-        $user = User::where('id',$id)->get();
+        $user = User::where('id',$id)->first();
         $details = [
-            'greeting'=>'Hi email notification test',
-            'body'=>'This is the email body',
-            'actiontext'=>'Hi im a developer',
-            'actionurl'=>'/',
-            'lastline'=>'Thank you user.',
+            'greeting'=>'Hello '.$user->email,
+            'body'=>'You have a new notification request',
+            'actiontext'=>'Check Request',
+            'actionurl'=>'http://127.0.0.1:8000/doctor',
+            'lastline'=>'Thank you.'.$user->name,
             // 'useremail'=>
         ];
-
+        // event(new UserNotification($user));
         Notification::send($user, new SendEmailNotification($details));
         return $user;
+    } 
+    /**
+     * sendNotif one Student.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BookSchedules  $bookSchedules
+     * @return \Illuminate\Http\Response
+     */
+    public function sendnotificationStudent($id){
+        $user = User::where('id',$id)->first();
+        $details = [
+            'greeting'=>'Hello '.$user->email,
+            'body'=>'UTM staff is responding to your request. click the action button bellow to redirected to notification status.',
+            'actiontext'=>'Check ',
+            'actionurl'=>'http://127.0.0.1:8000/request-status',
+            'lastline'=>'Thank you.'.$user->name,
+            // 'useremail'=>
+        ];
+        // event(new UserNotification($user));
+        Notification::send($user, new SendEmailNotification($details));
+        return $user;
+    } 
+    /**
+     * sendNotif one doctor.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BookSchedules  $bookSchedules
+     * @return \Illuminate\Http\Response
+     */
+    public function sendnotificationAll($id){
+        $users = User::where('speciality','Doctor')->get();
+
+        foreach($users as $user){
+            $details = [
+                    'greeting'=>'Hi '.$user->email,
+                    'body'=>'Emergency call to all doctors, we have a student need us.',
+                    'actiontext'=>'Checked Status',
+                    'actionurl'=>"http://127.0.0.1:8000/emergency-details/".$id,
+                    'lastline'=>'Thank you '.$user->name,
+                    // 'useremail'=>
+            ];
+            Notification::send($user, new SendEmailNotification($details));
+        }
+        // $details = [
+        //     'greeting'=>'Hi email notification test',
+        //     'body'=>'This is the email body',
+        //     'actiontext'=>'Hi im a developer',
+        //     'actionurl'=>'/',
+        //     'lastline'=>'Thank you user.',
+        //     // 'useremail'=>
+        // ];
+        // event(new UserNotification($user));
+        // Notification::send($user, new SendEmailNotification($details));
+        return $user;
+    } 
+   /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\BookSchedules  $bookSchedules
+     * @return \Illuminate\Http\Response
+     */
+    public function pusherNotify(Request $request,$id){
+        // $user = User::where('id', 1)->get();
+        // $user = $request->data['name'];
+        $user_id = $id;
+        $credNotify = $request->data; 
+        event(new UserNotification($credNotify));
+        // return ;
     } 
 }

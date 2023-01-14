@@ -64,7 +64,7 @@
                         <div class="title text-secondary text-center">
                             <h2><b>Choose Dates</b></h2>
                             <!-- {{ bookedStatusChecked }} -->
-                            <p><span>Selected : </span>{{ $store.getters.getTokenDate }}</p>
+                            <p><span>Selected : </span><span class="text-primary"><b>{{ $store.getters.getTokenDate }}</b></span></p>
                            
                         </div>
                         <br>
@@ -104,7 +104,7 @@
                             <!-- {{ bookedD }} -->
                             <div class="title text-secondary text-center">
                                 <h2><b>Choose Time</b></h2>
-                                <p><span>Selected : </span>{{ $store.getters.getTokenTime }}</p>
+                                <p><span>Selected : </span><span class="text-primary"><b>{{ $store.getters.getTokenTime }}</b></span></p>
                             </div>
                            <br>
                                 <div class="row" style="margin: auto;">
@@ -146,7 +146,8 @@
                             <!-- :href="'/book/'+doctorDetail.relationships.id+'/'+bookTime+'/'+bookDate" -->
 
                             <!-- disable-link add later in class-->
-                            {{ message }}
+                            <span class="text-success"><b>{{ message }}</b></span>
+                            <!-- <a @click="userNotify" class="btn btn-primary form-control mb-1">userNotify</a> -->
                             <a @click="sendNotif" class="btn btn-primary form-control mb-1" id="sendR">Send Request</a>
                             <a @click="editRequest($store.getters.getTokenTime, $store.getters.getTokenDate)" class="btn btn-primary form-control mb-1" id="editR">Edit Request</a>
                             <a @click="deleteRequest($store.getters.getTokenId)" class="btn btn-primary form-control mb-1" id="deleteR">Delete Request</a>
@@ -184,8 +185,8 @@ import axios from 'axios';
     import $ from 'jquery'
    export default{
         setup(){
-            const {sendNotif, setTime, data, msg, message, bookUserStatus,editRequest,deleteRequest} = sendRequest()
-            return {sendNotif, setTime, data, msg,message, bookUserStatus,editRequest,deleteRequest}
+            const {userNotify,sendNotif, setTime, data, msg, message, bookUserStatus,editRequest,deleteRequest} = sendRequest()
+            return {userNotify,sendNotif, setTime, data, msg,message, bookUserStatus,editRequest,deleteRequest}
         },
 
        

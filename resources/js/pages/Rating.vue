@@ -1,8 +1,7 @@
 <template>
     <div class="container">
-        <h4 class="text-secondary">Hello there, <span>{{ $store.getters.getTokenName }}</span></h4><br>
+        <h4 class="text-secondary">Hello there, <span class="text-primary">{{ $store.getters.getTokenName }}</span></h4><br>
         <div class="row">
-            <h1 class="text-center">Hello User, Give them a Ratings!</h1>
             <div class="col-sm-8 mb-4"> 
                 <!-- {{ doctorDetails.username }} -->
                 <div class="card responsive">
@@ -12,15 +11,14 @@
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-7x"/>
                             </div>
                             <div class="col-sm-5 p-2 h-25">
-                                <p class="card-text">Rating : 5</p>
-                                <p class="card-text"><span>{{ doctorDetails.userspeciality }}</span> : {{ doctorDetails.username }} </p>
-                                <p class="card-text">{{ doctorDetails.userdetails }}</p>
+                                <p class="card-text"><span>{{ doctorDetails.userspeciality }}</span> : <span class="text-primary">{{ doctorDetails.username }}</span> </p>
+                                <p class="card-text"><span>Position : </span><span class="text-primary">{{ doctorDetails.userdetails }}</span></p>
                             </div>  
                         </div>
                         <br>
                         <div class="card p-3 bg-secondary">
                             <div class="col-sm-12 time">
-                            <p class="card-time text-white">Give Dr.Jaypee a Ratings</p>
+                            <p class="card-time" style="color: #fd4;">Give them a rating.</p>
                             <!-- <p class="card-time">Available Week</p> -->
                             </div>
                             <form @submit.prevent="studentRating">
@@ -47,7 +45,7 @@
                             </div>
                            
 
-                                <header class="text-center">I don't like it!</header>
+                                <!-- <header class="text-center">I don't like it!</header> -->
 
                             <div class="textarea">
                                 <textarea name="" id="" cols="30" placeholder="Describe your experience.." v-model="form.feedback"></textarea>
@@ -101,13 +99,43 @@
                 .then((res)=>{
                     console.log(res)
                     // push login page by name
-                    router.push({name: "Student"})
+                    deleteBooked()
+                    // router.push({name: "Student"})
                 })
                 //this is a problem after register
                 .catch((err)=>{
                     // router.push({name: "Student"})
                     console.log(err)
                 })
+            }
+            const deleteBooked = async()=>{
+                let token = JSON.parse(localStorage.getItem('token'))
+                const headers = {
+                    'Accept': 'application/vnd.api+json',
+                    'Content-Type': 'application/vnd.api+json',
+                    'Authorization': 'Bearer ' + token.bearerToken
+                }
+                let tokenData = {
+                    bearerToken : store.getters.getToken,
+                    name : store.getters.getTokenName,
+                    speciality : store.getters.getTokenSpeciality,
+                    id : store.getters.getTokenId,
+                    date : 0,
+                    time : 0,}
+                    
+                await axios.delete('/api/ratings/'+store.getters.getTokenId,{headers})
+                .then((res)=>{
+                    console.log(res)
+                    // push login page by name
+                    // restoring token in localstorage using vuex
+                    store.dispatch('setToken', tokenData)
+                    router.push({name: "Student"})
+                })
+                //this is a problem after register
+                .catch((err)=>{
+                    // router.push({name: "Student"})
+                    console.log(err)
+                })   
             }
             return{
                 form,studentRating
@@ -126,6 +154,8 @@
             this.loadDoctorDetails()
         },
         methods: {
+    
+    
             async loadDoctorDetails(){
                 const router = useRouter()
                 const route = useRoute();
