@@ -8,8 +8,8 @@
                     <!-- <label id="prompt">{{ permisionStatus }}</label> -->
                     <!-- {{ positionLat }} -->
                 <!-- {{ mapData.student_Name }} -->
-                    <div class="col-sm-12 card" id="map"></div>
-                    <div class="col-sm-12 bg-dark p-4">
+                    <div class="col-sm-8 card" id="map"></div>
+                    <div class="col-sm-4 bg-dark p-5">
                         <h1 class="text-center text-white">{{ mapData.student_Name }}</h1>
                         <p class="text-secondary text-center">{{ mapData.emergency_description }}</p>
                         <button class="form-control btn btn-primary" @click="btn_Handle(mapData)">Handle</button>
@@ -39,7 +39,7 @@
  .row{
     overflow-y: auto;
     /* overflow: hidden; */
-    height: 450px;
+    height: 420px;
     /* border: 1px solid red; */
    }
  #map { height: 30em; }

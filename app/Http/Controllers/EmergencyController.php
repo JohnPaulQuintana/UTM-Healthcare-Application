@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Events\UserNotification;
+use Notification;
+use App\Models\User;
 use App\Models\Emergency;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmergencyRequest;
 use App\Http\Resources\EmergencyResource;
-
+use App\Notifications\SendEmailNotification;
 class EmergencyController extends Controller
 {
     /**
@@ -90,6 +92,20 @@ class EmergencyController extends Controller
         $user->doctor_Name = $request->doctor_Name;
         $user->status = $request->status;
         $user->save();
+
+        // sending email notif
+        $userEmail = User::where('id',$request->id)->first();
+        $details = [
+            'greeting'=>'Hello, from '.$request->doctor_Name,
+            'body'=>'You dont need to worry about, ill sending you an ambulance as soon as posible. Just stay where you are ok.',
+            'actiontext'=>'Ok',
+            'actionurl'=>'http://127.0.0.1:8000/student',
+            'lastline'=>'Thank you.'.$user->name,
+            // 'useremail'=>
+            // http://127.0.0.1:8000/student
+        ];
+        // event(new UserNotification($user));
+        Notification::send($userEmail, new SendEmailNotification($details));
         return new EmergencyResource($user);
         // return $user;
     }

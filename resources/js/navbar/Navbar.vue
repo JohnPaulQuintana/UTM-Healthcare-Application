@@ -116,7 +116,7 @@
         
         
        <div class="d-flex flex-column">
-            <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-primary text-white">
+            <footer id="sticky-footer" class="flex-shrink-0 py-2 bg-primary text-white">
                 <div class="container text-center">
                 <small>Copyright &copy; UTM-Healthcare-Application</small>
                 </div>
